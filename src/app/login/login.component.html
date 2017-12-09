@@ -1,0 +1,37 @@
+<h1 class="title">Beatko in</h1>
+<div class="container">
+  <div><p class="description">
+      "Beatko in" is a digital currency exchange system
+      which helps users realize crypto-natinal and crypto-crypto currency exchange
+    through creating and accepting offers</p></div>
+	<div class="flip">
+    	<div class="card" [ngClass]="{'flipped': flipped}"> 
+        	<div class="face front"> 
+            	<div class="login_form inner">
+                    <form (ngSubmit)="Login()">
+                      <div class="form_line">
+                          <mat-form-field>
+                              <input matInput placeholder="Email">
+                            </mat-form-field>
+                      </div>
+                      <div class="form_line">
+                          <mat-form-field>
+                              <input matInput placeholder="Password" type="password">
+                            </mat-form-field>
+                          </div>
+                      <button mat-raised-button>Sign in</button>
+                    </form>
+                    <button mat-button class="sign_up_button">Sign up</button>
+                </div>
+              </div> 
+        	<div class="face back"> 
+     			<div class="login_form inner">
+                     <div class="login_text">
+                        <h3>Loading...</h3>
+                        <h3>{{loginMessage}}</h3>
+                     </div>
+                 </div>
+  			</div>
+        </div>	 
+    </div>
+</div>	 
