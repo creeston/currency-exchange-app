@@ -9,17 +9,17 @@
             <div class="card" [ngClass]="{'flipped': flipped}"> 
                 <div class="face front"> 
                     <div class="login_form inner">
-                        <form (ngSubmit)="Login()">
+                        <form (ngSubmit)="Login(loginForm)" #loginForm="ngForm">
                             <div class="form_line">
                                 <mat-form-field>
-                                    <input matInput placeholder="Email">
+                                    <input matInput required placeholder="Username" [(ngModel)]="user.Username" name="username">
                                 </mat-form-field>
                             </div>
                             <div class="form_line">
                                 <mat-form-field>
-                                    <input matInput placeholder="Password" type="password">
+                                    <input matInput placeholder="Password" required type="password" [(ngModel)]="user.Password" name="password">
                                 </mat-form-field>
-                            </div>
+                            </div>  
                             <button mat-raised-button>Sign in</button>
                         </form>
                         <button mat-button class="sign_up_button" (click)="toggleState()">Sign up</button>
@@ -29,16 +29,53 @@
                     <div class="login_form inner">
                         <div class="login_text">
                             <h3>Loading...</h3>
-                            <h3>{{loginMessage}}</h3>
+                            <h3 [ngClass]="{'has_error': has_error}">{{loginMessage}}</h3>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="register_1">
-                <button mat-button class="sign_up_button" (click)="toggleState()">Next</button>
+                <div class="login_form">
+                    <form [formGroup]="regForm" (submit)="proceedSignUp()">
+                        <div class="form_line">
+                            <mat-form-field>
+                                <input matInput required placeholder="Username" formControlName="username" name="username">
+                            </mat-form-field>
+                        </div>
+                        <div class="form_line">
+                            <mat-form-field>
+                                <input matInput required placeholder="Email" type="email" formControlName="email" name="email">
+                                <mat-error *ngIf="regForm.controls.email.invalid">Email is invalid</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="form_line">
+                            <mat-form-field>
+                                <input matInput placeholder="Password" required type="password" [formControl]="regForm.controls.password" name="password">
+                            </mat-form-field>
+                        </div>
+                        <div class="form_line">
+                            <mat-form-field>
+                                <input [errorStateMatcher]="matcher" matInput placeholder="Repeat password" type="password" [formControl]="regForm.controls.repeatedPassword" name="repeated_password">
+                                <mat-error *ngIf="regForm.invalid">Passwords are not equal</mat-error>
+                            </mat-form-field>
+                        </div>
+                        <button mat-button>Next</button>
+                    </form>
+                </div>
             </div>
             <div class="register_2">
-                <button mat-button class="sign_up_button" (click)="toggleState()">Next</button>
+                <div class="login_form">
+                    <p>Confirmation code was sent on your email.</p>
+                    <form>
+                        <div class="form_line">
+                            <mat-form-field>
+                                <input matInput placeholder="Confirmation code" required [(ngModel)]="registrationInfo.Confirmation" name="confirmation">
+                            </mat-form-field>
+                        </div>
+                        <button mat-button (click)="toggleState()">Sign up</button>
+                    </form>
+                    <button mat-button (click)="sendCode()">Send code</button>
+                </div>
             </div>
         </div>
     </div>

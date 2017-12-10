@@ -13,7 +13,7 @@ body {
   
 .card {
     width: 350px;
-    height: 300px;
+    height: 350px;
 }
 
 .face {
@@ -22,7 +22,6 @@ body {
 }
   
 .login_form {
-    border: 1px solid grey;
     width: 98%;
     height: 98%;
 }
@@ -34,7 +33,7 @@ body {
     margin-left: 14%;
     overflow:hidden;
     width: 350px;
-    height: 300px;
+    height: 350px;
 }
   
   .flip .card.flipped {
@@ -100,7 +99,7 @@ body {
   .sign_up_button {
       text-decoration: underline;
       color: grey;
-      margin: 20%;
+      margin-top: 20%;
   }
 
   div.login_form > form {
@@ -108,7 +107,7 @@ body {
   }
 
 div.register_1, div.register_2 {
-    height: 294px;
+    height: 344px;
     width: 344px;
     border: 3px solid #4189C7;
 }
@@ -121,4 +120,12 @@ div.forms {
 
 div.forms > div {
     float: left;
+}
+
+.has_error {
+    color: red;
+}
+
+mat-form-field {
+    width: 65%;
 }

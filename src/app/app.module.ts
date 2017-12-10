@@ -4,14 +4,15 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router/src/router';
-import { Http } from '@angular/http/src/http';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpModule } from '@angular/http/src/http_module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {MatButtonModule} from '@angular/material';
+import {MatButtonModule, ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from '@angular/material';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material';
+import { LoginService } from './login/login.service';
+import {HttpClientModule} from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 
 const routes: Routes = [
   {
@@ -32,10 +33,12 @@ const routes: Routes = [
       routes
     ),
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
+    HttpModule,
     MatButtonModule, MatFormFieldModule, MatInputModule
   ],
-  providers: [AuthService],
+  providers: [AuthService, LoginService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
