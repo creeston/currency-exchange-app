@@ -52,6 +52,9 @@ import { UserThumbnailComponent } from './user-thumbnail/user-thumbnail.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { CurrencyChartComponent } from './currency-chart/currency-chart.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { CreateTradeComponent } from './create-trade/create-trade.component';
+import { WithdrawCurrencyComponent } from './withdraw-currency/withdraw-currency.component';
+import { DepositCurrencyComponent } from './deposit-currency/deposit-currency.component';
 
 const routes: Routes = [
   {
@@ -102,7 +105,8 @@ const routes: Routes = [
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-  ]
+  ],
+  declarations: []
 })
 export class MaterialModule {}
 
@@ -114,7 +118,10 @@ export class MaterialModule {}
     MainComponent,
     UserThumbnailComponent,
     DashboardComponent, 
-    CurrencyChartComponent
+    CurrencyChartComponent,
+    CreateTradeComponent,
+    WithdrawCurrencyComponent, 
+    DepositCurrencyComponent
   ],
   imports: [
     BrowserModule,
@@ -129,6 +136,6 @@ export class MaterialModule {}
     NgxChartsModule
   ],
   providers: [AuthService, LoginService, CurrencyDataService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent]
 })
 export class AppModule { }

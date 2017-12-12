@@ -1,0 +1,19 @@
+form {
+}
+
+.mat-radio-group {
+    display: block;
+    text-align: center;
+    margin-bottom: 5%;                                                                                                                                                  
+}
+
+.mat-raised-button {
+    display: block;
+    margin: 0 auto;
+}
+
+p {
+    color: red;
+    font-size: 0.8em;
+    
+}

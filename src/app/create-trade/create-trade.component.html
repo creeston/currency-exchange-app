@@ -1,0 +1,36 @@
+<form #tradeForm (submit)="createTrade(tradeForm)">
+  <mat-radio-group [(ngModel)]="trade.mode" name="mode">
+    <mat-radio-button value=1>buy</mat-radio-button>
+    <mat-radio-button value=2>sell</mat-radio-button>
+  </mat-radio-group>
+  <mat-form-field>
+    <mat-select placeholder="first currency" [(ngModel)]="trade.first_currency" name="trade">
+      <mat-option *ngFor="let currency of crypto_currencies" [value]="currency.value">
+        {{ currency.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="first currency value" required type="number" [formControl]="first_currency_amount"  [(ngModel)]="trade.first_currency_amount" name="first_currency_amount">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="minimal offer" required type="number" [(ngModel)]="trade.minimal_offer" name="minimal_offer">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="second currency" [(ngModel)]="trade.second_currency" name="second_currency">
+      <mat-option *ngFor="let currency of currencies" [value]="currency.value">
+        {{ currency.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="second currency value" required type="number" [formControl]="second_currency_amount" [(ngModel)]="trade.second_currency_amount" name="second_currency_amount">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-select placeholder="Payment methods" [(ngModel)]="trade.payment_methods" name="payment_methods" multiple>
+      <mat-option *ngFor="let method of paymentMethods" [value]="method.value">{{method.viewValue}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <button mat-raised-button type="submit">Create</button>
+  <p>{{errorMessage}}</p>
+</form>
