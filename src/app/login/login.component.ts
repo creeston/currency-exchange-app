@@ -80,6 +80,7 @@ export class LoginComponent implements OnInit {
     if (!loginForm.valid) {
       return;
     }
+    this.loginMessage = "";
     this.Flip();
     this.loginService.login(this.user.Username, this.user.Password)
     .subscribe(result => {
@@ -90,13 +91,13 @@ export class LoginComponent implements OnInit {
         this.loginMessage = "Login failed";
         this.has_error = true;
       }
-      setTimeout(() => this.Flip(), 1000);
+      this.router.navigate(['home']);
     },
     error => {
       let values = Object.keys(error).map(key=>error[key]);
       this.loginMessage = values[0];
       this.has_error = true;
-      setTimeout(() => this.Flip(), 1000);
+      setTimeout(() => this.Flip(), 1500);
     })
   }
 

@@ -15,7 +15,7 @@ export class LoginService {
   }
   
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post('http://127.0.0.1:8000/api-token-auth.json', JSON.stringify(
+    return this.http.post('https://still-escarpment-16037.herokuapp.com/api-token-auth.json', JSON.stringify(
       { 
         username: username, 
         password: password 

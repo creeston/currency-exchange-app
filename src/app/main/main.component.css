@@ -1,0 +1,41 @@
+.example-container {
+    position: absolute;
+    top: 60px;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+  }
+  
+  .example-sidenav {
+    width: 208px;
+    background: rgba(65, 137, 199, 0.5);
+  }
+  
+  .example-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    font-size: 1.5em;
+    background: #4189C7;
+  }
+  
+  .example-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  .side-nav-option {
+      width: 190px;
+      margin-left: -35px;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+  
+  .mat-sidenav-content {
+    text-align: center;
+  }

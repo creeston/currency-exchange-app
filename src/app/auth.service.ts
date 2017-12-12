@@ -7,7 +7,6 @@ export class AuthService {
 
   isLoggedIn() {
     if (localStorage.getItem('currentUser')) {
-      // logged in so return true
       return true;
     }
     return false;

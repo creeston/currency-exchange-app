@@ -1,0 +1,19 @@
+<div class="container">
+    <app-currency-chart #chart></app-currency-chart>
+    <div class="buttons">
+        <mat-grid-list cols="2" rowHeight="4:1">
+            <mat-grid-tile>
+                <button mat-raised-button>Buy {{chartElement.selectedCurrency}}</button>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <button mat-raised-button>Sell {{chartElement.selectedCurrency}}</button>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <button mat-raised-button>Withdraw {{chartElement.selectedCurrency}}</button>
+            </mat-grid-tile>
+            <mat-grid-tile>
+                <button mat-raised-button>Deposit {{chartElement.selectedCurrency}}</button>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+</div>
