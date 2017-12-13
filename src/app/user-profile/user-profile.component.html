@@ -1,0 +1,49 @@
+<div class="user-info">
+  <mat-form-field>
+    <input matInput placeholder="Username" [(ngModel)]="username" [readonly]="true">
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Email" [(ngModel)]="email" [readonly]="true">
+  </mat-form-field>
+  <button mat-icon-button (click)="openChangeEmailForm()">
+    <mat-icon>edit</mat-icon>
+  </button><br>
+  <button mat-raised-button (click)="openChangePasswordForm()">Change password</button>
+  <mat-list>
+    <h3 mat-subheader>Payment requisites</h3>
+    <mat-list-item *ngFor="let req of paymentRequisites">
+      <mat-icon mat-list-icon>payment</mat-icon>
+      <h4 mat-line>{{req.data}}</h4>
+      <p mat-line> {{req.name}} </p>
+    </mat-list-item>
+    <button mat-icon-button (click)="openAddPaymentForm()"><mat-icon>add</mat-icon></button>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Contact information</h3>
+    <mat-list-item *ngFor="let info of contractInformations">
+      <mat-icon mat-list-icon>contact_mail</mat-icon>
+      <h4 mat-line>{{info.data}}</h4>
+      <p mat-line> {{info.name}} </p>
+    </mat-list-item>
+    <button mat-icon-button (click)="openAddContactForm()"><mat-icon>add</mat-icon></button>
+  </mat-list>
+  <mat-card class="result">
+    <mat-card-content>
+      <h2 class="example-h2">Your rate</h2>
+      <mat-slider
+          class="example-margin"
+          [disabled]="true"
+          [invert]="invert"
+          [max]="5"
+          [min]="0"
+          [step]="0.1"
+          [thumb-label]="false"
+          [tick-interval]="false"
+          [(ngModel)]="rate"
+          [vertical]="false">
+      </mat-slider>{{rate}}<br>
+      <mat-form-field>
+        <input matInput placeholder="Completed trades" [(ngModel)]="trades_count" [readonly]="true">
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+</div>

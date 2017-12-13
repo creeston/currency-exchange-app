@@ -1,0 +1,13 @@
+<form #contactForm="ngForm" (submit)="addContact(contactForm)">
+  <mat-form-field>
+    <mat-select placeholder="Contact type" [(value)]="contact.type" name="type">
+      <mat-option *ngFor="let type of contactTypes" [value]="type.value">
+        {{ type.viewValue }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput placeholder="Contact data" [(ngModel)]="contact.data" required name="data">
+  </mat-form-field>
+  <button mat-raised-button type="submit">Submit</button>
+</form>
