@@ -55,6 +55,11 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { CreateTradeComponent } from './create-trade/create-trade.component';
 import { WithdrawCurrencyComponent } from './withdraw-currency/withdraw-currency.component';
 import { DepositCurrencyComponent } from './deposit-currency/deposit-currency.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ChangeEmailComponent } from './change-email/change-email.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { AddPaymentComponent } from './add-payment/add-payment.component';
+import { AddContactComponent } from './add-contact/add-contact.component';
 
 const routes: Routes = [
   {
@@ -66,7 +71,8 @@ const routes: Routes = [
     component: MainComponent,
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
-      {path: 'dashboard', component: DashboardComponent}
+      {path: 'dashboard', component: DashboardComponent},
+      {path: 'settings', component: UserProfileComponent}
     ]
   }
 ];
@@ -121,7 +127,12 @@ export class MaterialModule {}
     CurrencyChartComponent,
     CreateTradeComponent,
     WithdrawCurrencyComponent, 
-    DepositCurrencyComponent
+    DepositCurrencyComponent,
+    UserProfileComponent,
+    ChangeEmailComponent, 
+    ChangePasswordComponent, 
+    AddPaymentComponent, 
+    AddContactComponent
   ],
   imports: [
     BrowserModule,
@@ -136,6 +147,7 @@ export class MaterialModule {}
     NgxChartsModule
   ],
   providers: [AuthService, LoginService, CurrencyDataService],
-  bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent]
+  bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent,
+    ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent]
 })
 export class AppModule { }
