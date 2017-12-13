@@ -60,8 +60,15 @@ import { ChangeEmailComponent } from './change-email/change-email.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { AddPaymentComponent } from './add-payment/add-payment.component';
 import { AddContactComponent } from './add-contact/add-contact.component';
+import { TradesComponent } from './trades/trades.component';
+import { TradesQueueComponent } from './trades-queue/trades-queue.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full'
+  },
   {
     path: 'login',
     component: LoginComponent
@@ -72,7 +79,8 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', component: DashboardComponent},
-      {path: 'settings', component: UserProfileComponent}
+      {path: 'settings', component: UserProfileComponent},
+      {path: 'trades', component: TradesComponent}
     ]
   }
 ];
@@ -132,7 +140,9 @@ export class MaterialModule {}
     ChangeEmailComponent, 
     ChangePasswordComponent, 
     AddPaymentComponent, 
-    AddContactComponent
+    AddContactComponent,
+    TradesComponent,
+    TradesQueueComponent
   ],
   imports: [
     BrowserModule,

@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./user-thumbnail.component.css']
 })
 export class UserThumbnailComponent implements OnInit {
-
+  username: string = "user";
+  rate: number = 4.6;
+  
   constructor() { }
 
   ngOnInit() {
