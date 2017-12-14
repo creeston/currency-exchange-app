@@ -1,7 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { NgForm } from '@angular/forms/src/directives/ng_form';
+import { NgForm } from '@angular/forms';
+import { TradeService, Trade, TradeType, Currency, PaymentMethod } from '../services/trade.service';
 
 @Component({
   selector: 'app-create-trade',
@@ -9,32 +10,41 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
   styleUrls: ['./create-trade.component.css']
 })
 export class CreateTradeComponent implements OnInit {
-  trade: Trade = new Trade();
+  trade: Trade = new Trade(null);
   crypto_currencies: any[] = [
-    {value: 1, viewValue: "ETH"},
-    {value: 2, viewValue: "BTC"},
-    {value: 3, viewValue: "LTC"},
+    {value: Currency.ETH, viewValue: "ETH"},
+    {value: Currency.BTC, viewValue: "BTC"},
+    {value: Currency.LTC, viewValue: "LTC"},
   ]
 
   currencies: any[] = [
-    {value: 4, viewValue: "USD"},
-    {value: 5, viewValue: "RUB"},
-    {value: 6, viewValue: "BYR"},
-    {value: 1, viewValue: "ETH"},
-    {value: 2, viewValue: "BTC"},
-    {value: 3, viewValue: "LTC"},
+    {value: Currency.USD, viewValue: "USD"},
+    {value: Currency.USD, viewValue: "RUB"},
+    {value: Currency.BYR, viewValue: "BYR"},
+    {value: Currency.ETH, viewValue: "ETH"},
+    {value: Currency.BTC, viewValue: "BTC"},
+    {value: Currency.LTC, viewValue: "LTC"},
   ]
 
   paymentMethods: any[] = [
-    {value: 1, viewValue: "PayPal"},
-    {value: 2, viewValue: "QIWI"},
-    {value: 3, viewValue: "Yandex.Money"},
+    {value: PaymentMethod.PayPal, viewValue: "PayPal"},
+    {value: PaymentMethod.QIWI, viewValue: "QIWI"},
+    {value: PaymentMethod.YandexMoney, viewValue: "Yandex.Money"},
   ]
 
   first_currency_amount: FormControl = new FormControl('', [this.greaterThanZeroValidator]);
   second_currency_amount: FormControl = new FormControl('', [this.greaterThanZeroValidator]);
 
   errorMessage: string;
+  isPaymentMethodFieldHidden: boolean = true;
+
+  secondCurrencyChanged() {
+    if (this.trade.secondCurrency === Currency.BYR || this.trade.secondCurrency === Currency.RUB || this.trade.secondCurrency === Currency.USD){
+      this.isPaymentMethodFieldHidden = false;
+    } else {
+      this.isPaymentMethodFieldHidden = true;
+    }
+  }
 
   greaterThanZeroValidator(c: FormControl) {
     if (c.value <= 0) {
@@ -44,45 +54,48 @@ export class CreateTradeComponent implements OnInit {
   }
 
   constructor(
+    private service: TradeService,
     public dialogRef: MatDialogRef<CreateTradeComponent>, 
     @Inject(MAT_DIALOG_DATA) data: any,
     fb: FormBuilder) {
+      if (data === undefined || data === null) {
+        return;
+      }
+
       if (data.currency == "ETH"){
-        this.trade.first_currency = 1;
+        this.trade.firstCurrency = Currency.ETH;
       } else if (data.currency == "LTC"){
-        this.trade.first_currency = 3;
+        this.trade.firstCurrency = Currency.LTC;
       } else if (data.currency == "BTC"){
-        this.trade.first_currency = 2;
+        this.trade.firstCurrency = Currency.BTC;
       }
 
       if (data.mode == "buy"){
-        this.trade.mode = 1;
+        this.trade.type = TradeType.Buy;
       } else {
-        this.trade.mode = 2;
+        this.trade.type = TradeType.Sell;
       }
     }
     
     createTrade(tradeForm: NgForm): void {
+      this.errorMessage = "";
       if (tradeForm.invalid 
         || this.first_currency_amount.invalid 
         || this.second_currency_amount.invalid
-        || this.trade.first_currency_amount < this.trade.minimal_offer) {
+        || this.trade.firstCurrencyAmount < this.trade.minimalOffer) {
         return;
       }
-      this.dialogRef.close({redirect: true});
+      this.service.createTrade(this.trade)
+      .subscribe(
+        result => {
+          this.dialogRef.close({redirect: true});
+        },
+        error => {
+          this.errorMessage = JSON.stringify(error);
+        })
     }
 
   ngOnInit() {
 
   }
-}
-
-export class Trade {
-  mode: number = 1;
-  first_currency: number = 1;
-  first_currency_amount: number = 0;
-  minimal_offer: number = 0;
-  second_currency: number = 1;
-  second_currency_amount: number = 0;
-  payment_methods: number[]
 }

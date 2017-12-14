@@ -2,7 +2,7 @@
   <mat-list-item *ngFor="let trade of trades">
     <mat-card>
       <mat-card-header>
-          <div mat-card-avatar class="bitcoin-header-image"></div>
+        <img mat-card-avatar [src]="getImageUrl(trade.firstCurrency)">
           <mat-card-title>
             <div class="trade-title">{{createTradeDescription(trade)}}</div>
             <button class="context-menu-button" mat-icon-button [matMenuTriggerFor]="menu">
@@ -10,31 +10,23 @@
               </button>
           </mat-card-title>
       </mat-card-header>
-
       <mat-menu #menu="matMenu">
         <button mat-menu-item>
-          <mat-icon>dialpad</mat-icon>
-          <span>Redial</span>
-        </button>
-        <button mat-menu-item disabled>
-          <mat-icon>voicemail</mat-icon>
-          <span>Check voicemail</span>
+          <mat-icon>group</mat-icon>
+          <span>Show offers</span>
         </button>
         <button mat-menu-item>
-          <mat-icon>notifications_off</mat-icon>
-          <span>Disable alerts</span>
+          <mat-icon>edit</mat-icon>
+          <span>Edit</span>
+        </button>
+        <button mat-menu-item>
+          <mat-icon>clear</mat-icon>
+          <span>Delete</span>
         </button>
       </mat-menu>
-
-      <mat-card-footer>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              Offers
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-        </mat-expansion-panel>
-      </mat-card-footer>
     </mat-card>
   </mat-list-item>
 </mat-list>
+<button mat-icon-button class="add-button" (click)="openTradeDialog()">
+  <mat-icon>add_circle_outline</mat-icon>
+</button>
