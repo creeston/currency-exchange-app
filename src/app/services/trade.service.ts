@@ -3,6 +3,7 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
+import { PaymentMethod } from './payment-method.service'
 
 @Injectable()
 export class TradeService {
@@ -99,10 +100,4 @@ export enum Currency {
   BTC = 4,
   LTC = 5,
   ETH = 6
-}
-
-export enum PaymentMethod {
-  PayPal = 1,
-  YandexMoney = 2,
-  QIWI = 3
 }

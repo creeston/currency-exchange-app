@@ -1,6 +1,9 @@
 <div class="container">
+  <mat-form-field>
+      <input matInput placeholder="Balance" [(ngModel)]="currencyBalance" [readonly]="true">
+  </mat-form-field>
     <mat-form-field>
-        <mat-select [(ngModel)]="selectedCurrency">
+        <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="currencyChanged()">
           <mat-option value="BTC">BTC</mat-option>
           <mat-option value="LTC">LTC</mat-option>
           <mat-option value="ETH">ETH</mat-option>

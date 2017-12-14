@@ -14,7 +14,7 @@
     <mat-list-item *ngFor="let req of paymentRequisites">
       <mat-icon mat-list-icon>payment</mat-icon>
       <h4 mat-line>{{req.data}}</h4>
-      <p mat-line> {{req.name}} </p>
+      <p mat-line> {{getPaymentMethod(req.method)}} </p>
     </mat-list-item>
     <button mat-icon-button (click)="openAddPaymentForm()"><mat-icon>add</mat-icon></button>
     <mat-divider></mat-divider>

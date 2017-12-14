@@ -3,15 +3,14 @@
     margin-left: -35px;
     margin-top: -10px;
     margin-bottom: 10px;
-    height: 120px;
+    height: 80px;
+}
+
+.mat-card-actions {
+    padding: 0px;
 }
 
 .mat-button {
     width: 30px;
     margin: 0 0 !important;
-}
-  
-.example-header-image {
-    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
-    background-size: cover;
 }

@@ -2,7 +2,9 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgForm } from '@angular/forms';
-import { TradeService, Trade, TradeType, Currency, PaymentMethod } from '../services/trade.service';
+import { TradeService, Trade, TradeType, Currency } from '../services/trade.service';
+import { PaymentMethod } from '../services/payment-method.service';
+
 
 @Component({
   selector: 'app-create-trade',

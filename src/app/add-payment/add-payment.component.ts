@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgForm } from '@angular/forms';
+import { PaymentRequisite } from '../services/payment-method.service';
 
 @Component({
   selector: 'app-add-payment',
@@ -8,7 +9,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./add-payment.component.css']
 })
 export class AddPaymentComponent implements OnInit {
-  payment: PaymentRequisite = new PaymentRequisite();
+  payment: PaymentRequisite = new PaymentRequisite(null);
 
   paymentRequisiteTypes: any[] = [
     {value: 1, viewValue: "PayPal"},
@@ -30,9 +31,4 @@ export class AddPaymentComponent implements OnInit {
     }
     this.dialogRef.close({redirect: true});
   }
-}
-
-export class PaymentRequisite {
-  type: number = 1;
-  data: string;
 }

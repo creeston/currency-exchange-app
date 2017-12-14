@@ -64,6 +64,8 @@ import { TradesComponent } from './trades/trades.component';
 import { TradesQueueComponent } from './trades-queue/trades-queue.component';
 import { TradeService } from './services/trade.service'
 import { UserProfileService } from './user-profile/user-profile.service';
+import { BalanceService } from './services/balance.service';
+import { PaymentMethodService } from './services/payment-method.service';
 
 const routes: Routes = [
   {
@@ -158,7 +160,7 @@ export class MaterialModule {}
     MaterialModule,
     NgxChartsModule
   ],
-  providers: [AuthService, LoginService, CurrencyDataService, TradeService, UserProfileService],
+  providers: [AuthService, LoginService, CurrencyDataService, TradeService, UserProfileService, BalanceService, PaymentMethodService],
   bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent,
     ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent]
 })

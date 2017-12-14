@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import { PaymentRequisite } from '../services/payment-method.service';
 
 @Injectable()
 export class UserProfileService {
@@ -41,6 +42,7 @@ export class UserProfile {
     } else {
       this.rating = r.rating.rate_avg;
     }
+    this.paymentRequisites = r.payment_requisites.map(r => new PaymentRequisite(r));
   }
 
   id: number;
@@ -48,4 +50,5 @@ export class UserProfile {
   email: string;
   username: string;
   rating: number;
+  paymentRequisites: PaymentRequisite[]
 }

@@ -4,6 +4,8 @@ import { ChangeEmailComponent } from '../change-email/change-email.component'
 import { ChangePasswordComponent } from '../change-password/change-password.component'
 import { AddPaymentComponent } from '../add-payment/add-payment.component'
 import { AddContactComponent } from '../add-contact/add-contact.component'
+import { UserProfileService } from './user-profile.service';
+import { PaymentRequisite, PaymentMethod } from '../services/payment-method.service';
 
 @Component({
   selector: 'app-user-profile',
@@ -11,22 +13,41 @@ import { AddContactComponent } from '../add-contact/add-contact.component'
   styleUrls: ['./user-profile.component.css']
 })
 export class UserProfileComponent implements OnInit {
-  username: string = "User";
-  email: string = "mityy2012@gmail.com"
-  paymentRequisites: any[] = [
-    {data: "mityy2012@gmail.com", name: "PayPal"},
-    {data: "9496465685638", name: "Yandex.Money"}
-  ]
+  username: string;
+  email: string;
+  paymentRequisites: PaymentRequisite[];
 
   contractInformations: any[] = [
     {data: 'id29198680', name: 'VK'},
     {data: '+375445822205', name: 'Telegram'}
   ]
 
-  rate: number = 4.2;
-  trades_count: number = 8;
+  rate: number;
+  trades_count: number;
   
-  constructor(public dialog: MatDialog) { }
+  constructor(private profileService: UserProfileService, public dialog: MatDialog) { 
+    profileService.getCurrentUser().subscribe(
+      profile => {
+        this.username = profile.username;
+        this.email = profile.email;
+        this.rate = profile.rating;
+        this.trades_count = profile.completedTrades;
+        this.paymentRequisites = profile.paymentRequisites;
+      }, error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getPaymentMethod(m: PaymentMethod) {
+    if (m == PaymentMethod.PayPal) {
+      return "PayPal";
+    } else if (m == PaymentMethod.QIWI) {
+      return "QIWI";
+    } else {
+      return "Yandex.Money";
+    }
+  }
 
   ngOnInit() {
   }
