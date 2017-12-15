@@ -1,16 +1,26 @@
 .example-card {
-    width: 150px;
-    margin-left: -35px;
-    margin-top: -10px;
-    margin-bottom: 10px;
+    width: 170px;
     height: 80px;
+    padding: 10px;
+    float: right;
+    margin-top: 50px;
 }
 
 .mat-card-actions {
-    padding: 0px;
+    padding-left: 10px;
+    margin-top: -15px;
 }
 
 .mat-button {
     width: 30px;
     margin: 0 0 !important;
+    padding: 0;
+}
+
+.mat-tab-header {
+    height: 60px;
+}
+
+.mat-card-title, .mat-card-subtitle {
+    margin-bottom: 0px;
 }

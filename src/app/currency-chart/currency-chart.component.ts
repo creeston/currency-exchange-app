@@ -23,7 +23,6 @@ export class CurrencyChartComponent implements OnInit {
   showLegend = false;
   showXAxisLabel = true;
   showYAxisLabel = true;
-  yAxisLabel = 'Market price $';
 
   colorScheme = {
     domain: ['#4189C7', '#A10A28', '#C7B42C', '#AAAAAA']

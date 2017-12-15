@@ -1,25 +1,16 @@
-<mat-toolbar class="example-header">Beatko in</mat-toolbar>
-
-<mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" opened="true" class="example-sidenav">
-      <ul>
-        <li>
-          <app-user-thumbnail></app-user-thumbnail>
-        </li>
-          <li>
-              <a mat-button routerLink="dashboard" class="side-nav-option">
-                <mat-icon>home</mat-icon>Dashboard
-              </a>
-            </li>
-          <li>
-            <a mat-button routerLink="trades" class="side-nav-option">
-              <mat-icon>people</mat-icon>Trades
-            </a>
-          </li>
-        </ul> 
-    </mat-sidenav> 
-  <mat-sidenav-content>
+<mat-toolbar class="menu-header">
+  <span class="logo">Beatko in</span>
+  <span class="example-spacer"></span>
+  <div class="menu-options">
+    <a mat-raised-button routerLink="dashboard" class="side-nav-option">
+      <mat-icon>home</mat-icon>Dashboard
+    </a>
+    <a mat-raised-button routerLink="trades" class="side-nav-option">
+      <mat-icon>people</mat-icon>Trades
+    </a>
+  </div>
+  <app-user-thumbnail></app-user-thumbnail>
+</mat-toolbar>
+<div class="example-container">
     <router-outlet></router-outlet>    
-  </mat-sidenav-content>
-</mat-sidenav-container>
-<mat-toolbar class="example-footer">Rodion Cherny. BSUIR 2017</mat-toolbar>
+</div>

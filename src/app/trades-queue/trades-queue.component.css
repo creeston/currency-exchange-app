@@ -1,6 +1,8 @@
 .mat-list {
     height: 100%;
     padding-top: 50px;
+    width: 420px;
+    float: left;
 }
 
 .mat-list-item {
@@ -22,13 +24,13 @@
 .mat-card-title {}
  
 .context-menu-button {
-    position: relative;
-    left: 30px;
-    top: -15px;
+    float: right;
+    margin-top: -30px;
+    margin-right: -20px;
 }
 
 .add-button {
-    position: fixed;
-    top: 15%;
-    left: 45%;
+    float: left;
+    margin-left: 30px;
+    margin-top: 30px;
 }   

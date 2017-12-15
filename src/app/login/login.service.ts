@@ -3,7 +3,6 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
-import { HttpHeaders } from '@angular/common/http/src/headers';
 
 @Injectable()
 export class LoginService {
