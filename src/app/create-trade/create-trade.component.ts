@@ -21,7 +21,7 @@ export class CreateTradeComponent implements OnInit {
 
   currencies: any[] = [
     {value: Currency.USD, viewValue: "USD"},
-    {value: Currency.USD, viewValue: "RUB"},
+    {value: Currency.RUB, viewValue: "RUB"},
     {value: Currency.BYR, viewValue: "BYR"},
     {value: Currency.ETH, viewValue: "ETH"},
     {value: Currency.BTC, viewValue: "BTC"},

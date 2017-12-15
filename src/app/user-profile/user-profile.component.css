@@ -11,3 +11,8 @@
 .mat-slider{ 
     width: 35%;
 }
+
+.mat-list-item {
+    width: 350px;
+    text-align: left;
+}

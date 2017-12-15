@@ -1,6 +1,6 @@
 .example-container {
   margin-top: 80px;
-  height: 695px;
+  min-height: 695px;
   width: 750px;
   box-shadow: 0 4px 8px 0 rgba(65, 137, 199, 0.2), 0 6px 20px 0 rgba(65, 137, 199, 0.19);
 }
@@ -27,6 +27,7 @@
   font-size: 1.5em;
   background: #4189C7;
   height: 60px;
+  z-index: 2;
 }
 
 .menu-options {

@@ -33,9 +33,11 @@ export class DashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(CreateTradeComponent, {
       width: '350px',
       data: { currency: this.chartElement.selectedCurrency, mode: tradeMode }
-    });
-    
-    dialogRef.afterClosed().subscribe(result => {
+    })
+    .afterClosed().subscribe(result => {
+      if (result.redirect) {
+        this.router.navigate(['home', 'trades'])
+      }
       console.log(result);
     });
   }
