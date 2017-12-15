@@ -1,0 +1,20 @@
+<div [hidden]="offersLoaded">
+  <mat-spinner></mat-spinner>
+</div>
+<p [hidden]="offersLoaded && offers.length > 0">No offers for your trade!</p>
+<mat-list>
+  <mat-list-item *ngFor="let offer of offers">
+    <mat-card>
+      <mat-card-header>
+        <mat-card-title>
+          <div class="trade-title">{{createOfferDescription(offer)}}</div>
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-actions>
+        <button mat-raised-button>
+          <mat-icon>exit_to_app</mat-icon> Accept
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </mat-list-item>
+</mat-list>

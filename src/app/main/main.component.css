@@ -1,8 +1,7 @@
 .example-container {
-  margin-top: 80px;
+  margin-top: 70px;
   min-height: 695px;
-  width: 750px;
-  box-shadow: 0 4px 8px 0 rgba(65, 137, 199, 0.2), 0 6px 20px 0 rgba(65, 137, 199, 0.19);
+  width: 720px;
 }
   
 .example-sidenav {
@@ -18,20 +17,29 @@
   color: white;
   font-size: 1.6em;
 }
+
+.menu-header-inner {
+  background: #4189C7;
+  width: 720px;
+  margin: 0 auto;
+  height: 70px;
+}
   
 .menu-header {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
   font-size: 1.5em;
-  background: #4189C7;
-  height: 60px;
+  height: 70px;
   z-index: 2;
+  background: rgba(165, 188, 206, 0.72);
 }
 
 .menu-options {
   width: 400px;
+  float: left;
+  padding-top: 18px;
+  padding-left: 15px;
 }
   
 .mat-sidenav-content {
@@ -41,7 +49,6 @@
 .menu-options > a {
   display: block;
   float: left;
-  /* color: white; */
-  width: 150px;
+  width: 130px;
   margin-right: 20px;
 }

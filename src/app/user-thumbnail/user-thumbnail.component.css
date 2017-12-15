@@ -1,26 +1,46 @@
 .example-card {
-    width: 170px;
-    height: 80px;
+    width: 135px;
+    height: 45px;
     padding: 10px;
+    margin-top: 2px;
+    margin-right: 5px;
     float: right;
-    margin-top: 50px;
+}
+
+img {
+    padding-top: 10px;
+}
+
+.mat-card-header {
+    width: 80px;
+    float: left;
+    height: 50px;
+    position: relative;
+    bottom: 8px;
 }
 
 .mat-card-actions {
-    padding-left: 10px;
-    margin-top: -15px;
-}
-
-.mat-button {
-    width: 30px;
-    margin: 0 0 !important;
+    width: 60px;
+    height: 60px;
+    float: left;
     padding: 0;
+    position: relative;
+    bottom: 5px;
 }
 
+.mat-icon-button {
+    height: 20px;
+}
 .mat-tab-header {
     height: 60px;
 }
 
 .mat-card-title, .mat-card-subtitle {
     margin-bottom: 0px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    margin-top: -10px;
 }

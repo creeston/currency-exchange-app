@@ -66,6 +66,7 @@ import { TradeService } from './services/trade.service'
 import { UserProfileService } from './user-profile/user-profile.service';
 import { BalanceService } from './services/balance.service';
 import { PaymentMethodService } from './services/payment-method.service';
+import { TradeOffersComponent } from './trade-offers/trade-offers.component';
 
 const routes: Routes = [
   {
@@ -146,7 +147,8 @@ export class MaterialModule {}
     AddPaymentComponent, 
     AddContactComponent,
     TradesComponent,
-    TradesQueueComponent
+    TradesQueueComponent,
+    TradeOffersComponent
   ],
   imports: [
     BrowserModule,
@@ -162,6 +164,6 @@ export class MaterialModule {}
   ],
   providers: [AuthService, LoginService, CurrencyDataService, TradeService, UserProfileService, BalanceService, PaymentMethodService],
   bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent,
-    ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent]
+    ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent, TradeOffersComponent]
 })
 export class AppModule { }

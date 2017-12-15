@@ -2,4 +2,9 @@
     width: 720px;
     display: block;
     margin: 0 auto;
+    background-color: white;
+}
+
+.outer {
+    background-color: rgba(165, 188, 206, 0.72);
 }

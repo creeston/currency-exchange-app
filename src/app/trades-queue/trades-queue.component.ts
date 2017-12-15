@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Host } from '@angular/core';
 import { TradeService, Trade, TradeType } from '../services/trade.service'
 import { MatDialog } from '@angular/material';
 import { CreateTradeComponent } from '../create-trade/create-trade.component';
+import { TradesComponent } from '../trades/trades.component';
+import { TradeOffersComponent } from '../trade-offers/trade-offers.component';
 
 @Component({
   selector: 'app-trades-queue',
@@ -11,9 +13,15 @@ import { CreateTradeComponent } from '../create-trade/create-trade.component';
 export class TradesQueueComponent implements OnInit {
   trades: Trade[];
   tradesLoaded: boolean = false;
+  parentComponent: TradesComponent;
 
-  constructor(public dialog: MatDialog, private tradeService: TradeService) { 
-    this.loadTrades();
+  constructor(
+    @Host() parent: TradesComponent,
+    public dialog: MatDialog, 
+    private tradeService: TradeService) {
+      
+     this.parentComponent = parent; 
+     this.loadTrades();
   }
 
   ngOnInit() {
@@ -63,6 +71,19 @@ export class TradesQueueComponent implements OnInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         this.loadTrades();
+      });
+    }
+
+    openOffersView(trade: Trade) {
+      let dialogRef = this.dialog.open(TradeOffersComponent, {
+        width: '450px',
+        data: trade
+      })
+      .afterClosed().subscribe(result => {
+        if (result.redirect) {
+          this.parentComponent.index = 1;
+        }
+        console.log(result);
       });
     }
 }

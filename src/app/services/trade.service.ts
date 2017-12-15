@@ -39,6 +39,15 @@ export class TradeService {
   mapTrades(response: Response): Trade[] {
     return response.json().map(r => new Trade(r));
   }
+
+  listOffers(tradeId: number): Observable<Trade[]> {
+    return this.http.get(`https://still-escarpment-16037.herokuapp.com/offers/${tradeId}`, {headers: this.headers})
+      .map(this.mapTrades)
+      .catch((error:any) => {
+        console.log(error);
+        return Observable.throw(error.json() || 'Server error')}
+      );
+  }
 }
 
 class JTrade {

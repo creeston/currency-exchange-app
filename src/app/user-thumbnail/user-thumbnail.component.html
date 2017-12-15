@@ -5,11 +5,17 @@
       <mat-card-subtitle>rating: {{profile.rating}}</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions>
-      <a mat-button routerLink="/login" class="user-option">
-        <mat-icon>exit_to_app</mat-icon>
-      </a>
-      <a mat-button routerLink="settings" class="user-option">
-        <mat-icon>settings</mat-icon>
-      </a>
+      <ul>
+        <li>
+          <a mat-icon-button routerLink="/login" class="user-option">
+            <mat-icon>exit_to_app</mat-icon>
+          </a>
+        </li>
+        <li>
+          <a mat-icon-button routerLink="settings" class="user-option">
+            <mat-icon>settings</mat-icon>
+          </a>
+        </li>
+      </ul>
     </mat-card-actions>
   </mat-card>

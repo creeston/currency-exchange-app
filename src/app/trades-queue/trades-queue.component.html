@@ -1,4 +1,4 @@
-<div [hidden]="tradesLoaded">
+<div [hidden]="tradesLoaded" class="spinner">
   <mat-spinner></mat-spinner>
 </div>
 <mat-list>
@@ -14,7 +14,7 @@
           </mat-card-title>
       </mat-card-header>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>
+        <button mat-menu-item (click)="openOffersView(trade)">
           <mat-icon>group</mat-icon>
           <span>Show offers</span>
         </button>
