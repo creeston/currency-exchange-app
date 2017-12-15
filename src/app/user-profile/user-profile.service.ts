@@ -37,10 +37,10 @@ export class UserProfile {
     this.completedTrades = r.completed_trades_amount;
     this.email = r.email;
     this.username = r.username;
-    if (r.rating.rate_avg === null) {
-      this.rating = 0;
-    } else {
+    if (r.rating.rate_avg) {
       this.rating = r.rating.rate_avg;
+    } else {
+      this.rating = 0;
     }
     this.paymentRequisites = r.payment_requisites.map(r => new PaymentRequisite(r));
   }

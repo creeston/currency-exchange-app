@@ -10,6 +10,7 @@ import { CreateTradeComponent } from '../create-trade/create-trade.component';
 })
 export class TradesQueueComponent implements OnInit {
   trades: Trade[];
+  tradesLoaded: boolean = false;
 
   constructor(public dialog: MatDialog, private tradeService: TradeService) { 
     this.loadTrades();
@@ -32,6 +33,7 @@ export class TradesQueueComponent implements OnInit {
   loadTrades() {
     this.tradeService.listUserTrades().subscribe(result => {
       this.trades = result;
+      this.tradesLoaded = true;
     });
   }
 
