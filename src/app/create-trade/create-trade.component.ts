@@ -40,6 +40,8 @@ export class CreateTradeComponent implements OnInit {
   errorMessage: string;
   isPaymentMethodFieldHidden: boolean = true;
 
+  submitButtonPressed: boolean = false;
+
   secondCurrencyChanged() {
     if (this.trade.secondCurrency === Currency.BYR || this.trade.secondCurrency === Currency.RUB || this.trade.secondCurrency === Currency.USD){
       this.isPaymentMethodFieldHidden = false;
@@ -63,30 +65,18 @@ export class CreateTradeComponent implements OnInit {
       if (data === undefined || data === null) {
         return;
       }
-
-      if (data.currency == "ETH"){
-        this.trade.firstCurrency = Currency.ETH;
-      } else if (data.currency == "LTC"){
-        this.trade.firstCurrency = Currency.LTC;
-      } else if (data.currency == "BTC"){
-        this.trade.firstCurrency = Currency.BTC;
-      }
-
-      if (data.mode == "buy"){
-        this.trade.type = TradeType.Buy;
-      } else {
-        this.trade.type = TradeType.Sell;
-      }
+      this.trade.firstCurrency = data.currency;
+      this.trade.type = data.tradeType;
     }
     
     createTrade(tradeForm: NgForm): void {
       this.errorMessage = "";
       if (tradeForm.invalid 
         || this.first_currency_amount.invalid 
-        || this.second_currency_amount.invalid
-        || this.trade.firstCurrencyAmount < this.trade.minimalOffer) {
+        || this.second_currency_amount.invalid) {
         return;
       }
+      this.submitButtonPressed = true;
       this.service.createTrade(this.trade)
       .subscribe(
         result => {
@@ -94,6 +84,7 @@ export class CreateTradeComponent implements OnInit {
         },
         error => {
           this.errorMessage = JSON.stringify(error);
+          this.submitButtonPressed = false;
         })
     }
 

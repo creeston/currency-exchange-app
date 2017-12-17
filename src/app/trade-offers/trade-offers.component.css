@@ -3,15 +3,28 @@
     width: 400px;
 }
 
+.mat-card-header {
+    text-align: center;
+}
+
 .mat-list-item {
     margin-bottom: 30px;
 }
 
 .mat-card {
-    width: 400px;
-    height: 30px;
+    width: 500px;
+    height: 50px;
     padding: 15px 15px 22px 15px;
     font-size: 1.5em;
+}
+
+.mat-card-title {
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.mat-icon-button {
+    color: green;
 }
 
 .trade-title {

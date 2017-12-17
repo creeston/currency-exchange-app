@@ -1,5 +1,5 @@
 <mat-form-field>
-  <input matInput placeholder="You {{currency}} address" [(ngModel)]="address" required>
+  <input matInput placeholder="You {{stringCurrency(currency)}} address" [(ngModel)]="address" required>
 </mat-form-field>
 <mat-form-field>
   <input matInput placeholder="Amount to withdraw" [(ngModel)]="amount" type="number" required>

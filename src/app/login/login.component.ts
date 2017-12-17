@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'
 import { Http } from '@angular/http';
 import { NgForm, FormGroupDirective } from '@angular/forms'
-import { LoginService } from './login.service'
+import { LoginService } from '../services/login.service'
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import {
   trigger,

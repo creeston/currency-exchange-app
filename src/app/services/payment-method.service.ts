@@ -3,22 +3,18 @@ import { Http, Headers, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
+import { AuthService } from '../auth.service';
+import { HeadersProvider } from './headers-provider';
 
 @Injectable()
 export class PaymentMethodService {
-  public token: string;
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/payment_requisite.json';
-  private headers: Headers;
+  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/payment_requisite.json';;
   
-  constructor(private http: Http) {
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser.token;
-    this.headers = new Headers(
-      {'Content-Type': 'application/json', 'Authorization': `Token ${this.token}`});
+  constructor(private http: Http, private headersProvider: HeadersProvider) {
   }
   
   getUserPaymentRequisites(): Observable<PaymentRequisite[]> {
-    return this.http.get(this.endpoint, {headers: this.headers})
+    return this.http.get(this.endpoint, this.headersProvider.getHeaders())
     .map(this.mapRequisites)
     .catch((error:any) => {
       console.log(error);
@@ -27,7 +23,7 @@ export class PaymentMethodService {
   }
 
   addPaymentRequisite(requisite: PaymentRequisite): Observable<boolean> {
-    return this.http.post(this.endpoint, JSON.stringify(new JRequisite(requisite)), {headers: this.headers})
+    return this.http.post(this.endpoint, JSON.stringify(new JRequisite(requisite)), this.headersProvider.getHeaders())
     .map(result => true)
     .catch((error:any) => {
       console.log(error);

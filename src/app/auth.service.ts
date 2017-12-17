@@ -2,8 +2,11 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthService {
+  token: string;
 
-  constructor() { }
+  constructor() { 
+    this.reloadToken();
+  }
 
   isLoggedIn() {
     if (localStorage.getItem('currentUser')) {
@@ -12,4 +15,11 @@ export class AuthService {
     return false;
   }
 
+  reloadToken() {
+    let currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser)
+    {
+      this.token = currentUser.token;
+    }
+  }
 }

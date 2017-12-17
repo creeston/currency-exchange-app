@@ -1,0 +1,13 @@
+<mat-list>
+    <mat-list-item *ngFor="let trade of completedTrades">
+      <mat-card>
+        <mat-card-header>
+          <img mat-card-avatar [src]="getUserImageUrl(trade)">
+          <mat-card-title>
+            <div class="trade-title">{{getPartnerName(trade)}} {{getTradeTypeName(trade)}} {{createTradeDescription(trade)}}
+              </div>
+          </mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    </mat-list-item>
+  </mat-list>

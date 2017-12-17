@@ -15,5 +15,9 @@ form {
 p {
     color: red;
     font-size: 0.8em;
-    
+}
+
+.mat-spinner {
+    display: block;
+    margin: 0 auto;
 }

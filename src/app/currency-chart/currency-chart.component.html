@@ -2,14 +2,14 @@
   <mat-form-field>
       <input matInput placeholder="Balance" [(ngModel)]="currencyBalance" [readonly]="true">
   </mat-form-field>
-    <mat-form-field>
-        <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="currencyChanged()">
-          <mat-option value="BTC">BTC</mat-option>
-          <mat-option value="LTC">LTC</mat-option>
-          <mat-option value="ETH">ETH</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <ngx-charts-line-chart
+  <mat-form-field>
+    <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="currencyChanged()">
+      <mat-option value=4>BTC</mat-option>
+      <mat-option value=5>LTC</mat-option>
+      <mat-option value=6>ETH</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <ngx-charts-line-chart
       [view]="view"
       [scheme]="colorScheme"
       [results]="multi"

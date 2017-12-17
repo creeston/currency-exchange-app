@@ -1,9 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { AuthService } from './auth.service';
-import { CurrencyDataService } from './currency-chart/currency-data.service';
+import { CurrencyDataService } from './services/currency-data.service';
 import { Router } from '@angular/router/src/router';
 import { RouterModule, Routes } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -43,7 +43,7 @@ import {
   ErrorStateMatcher
 } from '@angular/material';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { LoginService } from './login/login.service';
+import { LoginService } from './services/login.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { MainComponent } from './main/main.component';
@@ -63,10 +63,17 @@ import { AddContactComponent } from './add-contact/add-contact.component';
 import { TradesComponent } from './trades/trades.component';
 import { TradesQueueComponent } from './trades-queue/trades-queue.component';
 import { TradeService } from './services/trade.service'
-import { UserProfileService } from './user-profile/user-profile.service';
+import { UserProfileService } from './services/user-profile.service';
 import { BalanceService } from './services/balance.service';
 import { PaymentMethodService } from './services/payment-method.service';
 import { TradeOffersComponent } from './trade-offers/trade-offers.component';
+import { GlobalErrorHandler } from './error-handler';
+import { ActiveTradesComponent } from './active-trades/active-trades.component';
+import { ActiveTradeService } from './services/active-trade.service'
+import { HeadersProvider } from './services/headers-provider'
+import { RateService } from './services/rate.service';
+import { UserProfileDialogComponent } from './user-profile-dialog/user-profile-dialog.component';
+import { CompletedTradesComponent } from './completed-trades/completed-trades.component';
 
 const routes: Routes = [
   {
@@ -148,7 +155,10 @@ export class MaterialModule {}
     AddContactComponent,
     TradesComponent,
     TradesQueueComponent,
-    TradeOffersComponent
+    TradeOffersComponent,
+    ActiveTradesComponent,
+    UserProfileDialogComponent, 
+    CompletedTradesComponent
   ],
   imports: [
     BrowserModule,
@@ -162,8 +172,10 @@ export class MaterialModule {}
     MaterialModule,
     NgxChartsModule
   ],
-  providers: [AuthService, LoginService, CurrencyDataService, TradeService, UserProfileService, BalanceService, PaymentMethodService],
+  providers: [AuthService, LoginService, CurrencyDataService, TradeService, UserProfileService, BalanceService, PaymentMethodService,
+  ActiveTradeService, HeadersProvider, RateService],
   bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent,
-    ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent, TradeOffersComponent]
+    ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent, TradeOffersComponent,
+    UserProfileDialogComponent]
 })
 export class AppModule { }

@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { Router } from '@angular/router'
 import { CreateTradeComponent } from "../create-trade/create-trade.component"
 import { DepositCurrencyComponent } from "../deposit-currency/deposit-currency.component"
 import { WithdrawCurrencyComponent } from "../withdraw-currency/withdraw-currency.component"
+import { BalanceService, UserWallet } from '../services/balance.service';
+import { TradeType, Trade } from '../services/trade.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,7 +13,16 @@ import { WithdrawCurrencyComponent } from "../withdraw-currency/withdraw-currenc
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  constructor(public dialog: MatDialog, private router: Router) { }
+  userWallets: string[] = [];
+
+  constructor(public dialog: MatDialog, private router: Router, private balanceService: BalanceService, public snackBar: MatSnackBar) { 
+    this.balanceService.getUserWallets()
+    .subscribe(wallets => {
+      for (let i = 0; i < wallets.length; i++) {
+        this.userWallets[wallets[i].currency] = wallets[i].address;
+      }
+    })
+  }
 
   @ViewChild('chart') chartElement;
 
@@ -22,17 +33,17 @@ export class DashboardComponent implements OnInit {
   }
 
   openBuyForm(): void {
-    this.openTradeForm("buy")
+    this.openTradeForm(TradeType.Buy);
   }
 
   openSellForm(): void {
-    this.openTradeForm("sell")
+    this.openTradeForm(TradeType.Sell);
   }
 
-  openTradeForm(tradeMode:string) {
+  openTradeForm(type: TradeType) {
     let dialogRef = this.dialog.open(CreateTradeComponent, {
       width: '350px',
-      data: { currency: this.chartElement.selectedCurrency, mode: tradeMode }
+      data: { currency: +this.chartElement.selectedCurrency, tradeType: type }
     })
     .afterClosed().subscribe(result => {
       if (result.redirect) {
@@ -44,15 +55,20 @@ export class DashboardComponent implements OnInit {
 
   openDepositForm() {
     let dialogRef = this.dialog.open(DepositCurrencyComponent, {
-      width: '300px',
-      data: { currency: this.chartElement.selectedCurrency }
+      width: '400px',
+      data: { address: this.userWallets[+this.chartElement.selectedCurrency] }
     });
   }
 
   openWithdrawForm() {
     let dialogRef = this.dialog.open(WithdrawCurrencyComponent, {
       width: '300px',
-      data: { currency: this.chartElement.selectedCurrency }
+      data: { currency: +this.chartElement.selectedCurrency }
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.snackBar.open("Your currency will be sent in 24h", "close", {duration: 3000});
+      }
+    })
   }
 }

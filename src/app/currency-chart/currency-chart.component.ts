@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CurrencyDataService } from './currency-data.service'
+import { CurrencyDataService } from '../services/currency-data.service'
 import { BalanceService } from '../services/balance.service';
 import { Currency } from '../services/trade.service';
+import { EnumHelper } from '../enum-helper'
 
 @Component({
   selector: 'app-currency-chart',
@@ -11,7 +12,8 @@ import { Currency } from '../services/trade.service';
 export class CurrencyChartComponent implements OnInit {
   single: any[];
   multi: any[];
-  selectedCurrency: string = "BTC";
+  selectedCurrency: string = "4";
+  selectedCurrencyString: string = "BTC";
   view: any[] = [700, 400];
   private balance: any;
   currencyBalance: number;
@@ -35,11 +37,8 @@ export class CurrencyChartComponent implements OnInit {
     this.multi = dataService.multi; 
     balanceService.getBalance().subscribe(
       balance => {
-        this.balance = {};
-        for (let i = 0; i < balance.length; i++) {
-          this.balance[this.currencyToString(balance[i].currency)] = balance[i].balance;
-        }
-        this.currencyBalance = this.balance[this.selectedCurrency];
+        this.balance = balance;
+        this.currencyBalance = this.balance[+this.selectedCurrency];
       },
       error => {
         console.log(error);
@@ -47,18 +46,9 @@ export class CurrencyChartComponent implements OnInit {
     )
   }
 
-  currencyToString(currency: Currency) {
-    if (currency == Currency.BTC) {
-      return "BTC";
-    } else if (currency == Currency.ETH) {
-      return "ETH";
-    } else {
-      return "LTC";
-    }
-  }
-
   currencyChanged() {
-    this.currencyBalance = this.balance[this.selectedCurrency];
+    this.currencyBalance = this.balance[+this.selectedCurrency];
+    this.selectedCurrencyString = EnumHelper.currencyToString(+this.selectedCurrency);
   }
   
   onSelect(event) {

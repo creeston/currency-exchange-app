@@ -13,9 +13,11 @@
   <mat-form-field [hideRequiredMarker]="true">
     <input matInput placeholder="first currency value" required type="number" [formControl]="first_currency_amount"  [(ngModel)]="trade.firstCurrencyAmount" name="first_currency_amount">
   </mat-form-field>
-  <mat-form-field [hideRequiredMarker]="true">
-    <input matInput placeholder="minimal offer" required type="number" [(ngModel)]="trade.minimalOffer" name="minimal_offer">
-  </mat-form-field>
+  <div [hidden]="trade.type == 2">
+    <mat-form-field [hideRequiredMarker]="true">
+      <input matInput placeholder="minimal offer" required type="number" [(ngModel)]="trade.firstMinimalOffer" name="f_minimal_offer">
+    </mat-form-field>
+  </div>
   <mat-form-field [hideRequiredMarker]="true">
     <mat-select (selectionChange)="secondCurrencyChanged()" placeholder="second currency" [(ngModel)]="trade.secondCurrency" name="second_currency">
       <mat-option *ngFor="let currency of currencies" [value]="currency.value">
@@ -26,6 +28,11 @@
   <mat-form-field [hideRequiredMarker]="true">
     <input matInput placeholder="second currency value" required type="number" [formControl]="second_currency_amount" [(ngModel)]="trade.secondCurrencyAmount" name="second_currency_amount">
   </mat-form-field>
+  <div [hidden]="trade.type == 1">
+    <mat-form-field [hideRequiredMarker]="true">
+      <input matInput placeholder="minimal offer" required type="number" [(ngModel)]="trade.secondMinimalOffer" name="s_minimal_offer">
+    </mat-form-field>
+  </div>
   <div [hidden]="isPaymentMethodFieldHidden">
     <mat-form-field [hideRequiredMarker]="true">
       <mat-select placeholder="Payment methods" [(ngModel)]="trade.paymentMethods" name="payment_methods" multiple>
@@ -33,6 +40,10 @@
       </mat-select>
     </mat-form-field>
   </div>
-  <button mat-raised-button type="submit">Create</button>
-  <p>{{errorMessage}}</p>
+  <div *ngIf="submitButtonPressed">
+    <mat-spinner [diameter]=30></mat-spinner>
+  </div>
+  <div *ngIf="!submitButtonPressed">
+    <button mat-raised-button type="submit">Create</button>
+  </div>
 </form>

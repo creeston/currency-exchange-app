@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTab } from '@angular/material';
 
 @Component({
@@ -8,8 +8,24 @@ import { MatTab } from '@angular/material';
 })
 export class TradesComponent implements OnInit {
   index: number = 0;
+
+
+  @ViewChild('activeTrades') activeTradesComponent;
+  @ViewChild('completedTrades') completedTradesComponent;
+  
   constructor() { }
+  
 
   ngOnInit() {
+  }
+
+  switchToActiveTrade() {
+    this.activeTradesComponent.loadTrades();
+    this.index = 1;
+  }
+
+  switchToCompletedTrades() {
+    this.completedTradesComponent.loadTrades();
+    this.index = 2;
   }
 }

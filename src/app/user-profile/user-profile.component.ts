@@ -4,7 +4,7 @@ import { ChangeEmailComponent } from '../change-email/change-email.component'
 import { ChangePasswordComponent } from '../change-password/change-password.component'
 import { AddPaymentComponent } from '../add-payment/add-payment.component'
 import { AddContactComponent } from '../add-contact/add-contact.component'
-import { UserProfileService } from './user-profile.service';
+import { UserProfileService } from '../services/user-profile.service';
 import { PaymentRequisite, PaymentMethod } from '../services/payment-method.service';
 
 @Component({

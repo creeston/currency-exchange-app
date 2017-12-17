@@ -4,22 +4,19 @@ import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
 import { PaymentMethod } from './payment-method.service'
+import { UserProfile } from './user-profile.service';
+import { AuthService } from '../auth.service';
+import { HeadersProvider } from './headers-provider';
 
 @Injectable()
 export class TradeService {
-  public token: string;
   private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/trade.json';
-  private headers: Headers;
   
-  constructor(private http: Http) {
-    var currentUser = JSON.parse(localStorage.getItem('currentUser'));
-    this.token = currentUser.token;
-    this.headers = new Headers(
-      {'Content-Type': 'application/json', 'Authorization': `Token ${this.token}`});
+  constructor(private http: Http, private headersProvider: HeadersProvider) {
   }
   
   listUserTrades(): Observable<Trade[]> {
-    return this.http.get(this.endpoint, {headers: this.headers})
+    return this.http.get(this.endpoint,this.headersProvider.getHeaders())
     .map(this.mapTrades)
     .catch((error:any) => {
       console.log(error);
@@ -28,8 +25,15 @@ export class TradeService {
   }
 
   createTrade(trade: Trade): Observable<boolean> {
-    console.log(JSON.stringify(new JTrade(trade)));
-    return this.http.post(this.endpoint, JSON.stringify(new JTrade(trade)), {headers: this.headers})
+    return this.http.post(this.endpoint, JSON.stringify(new JTrade(trade)), this.headersProvider.getHeaders())
+    .map(result => {
+      return true;
+    })
+    .catch((error:any) => Observable.throw(error.json() || 'Server error'));
+  }
+
+  deleteTrade(trade: Trade): Observable<boolean> {
+    return this.http.delete(`https://still-escarpment-16037.herokuapp.com/trade/${trade.id}.json`, this.headersProvider.getHeaders())
     .map(result => {
       return true;
     })
@@ -41,7 +45,7 @@ export class TradeService {
   }
 
   listOffers(tradeId: number): Observable<Trade[]> {
-    return this.http.get(`https://still-escarpment-16037.herokuapp.com/offers/${tradeId}`, {headers: this.headers})
+    return this.http.get(`https://still-escarpment-16037.herokuapp.com/offers/${tradeId}`, this.headersProvider.getHeaders())
       .map(this.mapTrades)
       .catch((error:any) => {
         console.log(error);
@@ -57,7 +61,13 @@ class JTrade {
     this.first_currency_amount = trade.firstCurrencyAmount;
     this.second_currency = trade.secondCurrency;
     this.second_currency_amount = trade.secondCurrencyAmount;
-    this.minimal_offer = trade.minimalOffer;
+    this.first_minimal_offer = null;
+    this.second_minimal_offer = null;
+    if (trade.firstMinimalOffer && trade.firstMinimalOffer > 0) {
+      this.first_minimal_offer = trade.firstMinimalOffer;
+    } else if(trade.secondMinimalOffer && trade.secondMinimalOffer > 0) {
+      this.second_minimal_offer = trade.secondMinimalOffer;
+    }
     this.trade_type = trade.type;
     this.payment_methods = trade.paymentMethods;
   }
@@ -65,7 +75,8 @@ class JTrade {
   id: number;
   first_currency: number;
   first_currency_amount: number;
-  minimal_offer: number;
+  first_minimal_offer: number;
+  second_minimal_offer: number;
   second_currency: number;
   second_currency_amount: number;
   trade_type: number;
@@ -82,15 +93,19 @@ export class Trade {
     this.firstCurrencyAmount = r.first_currency_amount;
     this.secondCurrency = r.second_currency.code;
     this.secondCurrencyAmount = r.second_currency_amount;
-    this.minimalOffer = r.minimal_offer;
+    this.firstMinimalOffer = r.first_minimal_offer;
+    this.secondMinimalOffer = r.second_minimal_offer;
     this.type = r.trade_type.id;
     this.paymentMethods = r.paymentMethods;
+    this.creator = new UserProfile(r.creator);
   }
 
   id: number;
+  creator: UserProfile;
   firstCurrency: Currency;
   firstCurrencyAmount: number;
-  minimalOffer: number;
+  firstMinimalOffer: number;
+  secondMinimalOffer: number;
   secondCurrency: Currency;
   secondCurrencyAmount: number;
   type: TradeType;

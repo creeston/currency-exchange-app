@@ -1,5 +1,5 @@
 <mat-tab-group [dynamicHeight]="true" [(selectedIndex)]="index">
   <mat-tab label="In queue"><app-trades-queue></app-trades-queue></mat-tab>
-  <mat-tab label="In progress">Content 2</mat-tab>
-  <mat-tab label="Completed">Content 2</mat-tab>
+  <mat-tab label="In progress"><app-active-trades #activeTrades></app-active-trades></mat-tab>
+  <mat-tab label="Completed"><app-completed-trades #completedTrades></app-completed-trades></mat-tab>
 </mat-tab-group>

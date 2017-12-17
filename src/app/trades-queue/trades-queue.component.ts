@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material';
 import { CreateTradeComponent } from '../create-trade/create-trade.component';
 import { TradesComponent } from '../trades/trades.component';
 import { TradeOffersComponent } from '../trade-offers/trade-offers.component';
+import { ActiveTradeService } from '../services/active-trade.service';
 
 @Component({
   selector: 'app-trades-queue',
@@ -34,8 +35,14 @@ export class TradesQueueComponent implements OnInit {
     } else {
       message = "Selling ";
     }
-    message += `${trade.firstCurrencyAmount}(${trade.minimalOffer}) ${trade.firstCurrency} for ${trade.secondCurrencyAmount} ${trade.secondCurrency}`
+    message += `${trade.firstCurrencyAmount}(${trade.firstMinimalOffer}) ${trade.firstCurrency} for ${trade.secondCurrencyAmount} ${trade.secondCurrency}`
     return message;
+  }
+
+  deleteTrade(trade: Trade) {
+    this.tradeService.deleteTrade(trade).subscribe(success => {
+      this.loadTrades();
+    })
   }
 
   loadTrades() {
@@ -44,17 +51,7 @@ export class TradesQueueComponent implements OnInit {
       this.tradesLoaded = true;
     });
   }
-
-  getImageClass(currencyType) {
-    if (currencyType == "BTC") {
-      return "btc-header-image";
-    } else if (currencyType == "LTC") {
-      return "ltc-header-image";
-    } else {
-      return "eth-header-image";
-    }
-  }
-
+  
     getImageUrl(currencyType) {
       if (currencyType == "BTC") {
         return "assets/currencies/btc_icon.jpg";
@@ -76,14 +73,13 @@ export class TradesQueueComponent implements OnInit {
 
     openOffersView(trade: Trade) {
       let dialogRef = this.dialog.open(TradeOffersComponent, {
-        width: '450px',
+        width: '500px',
         data: trade
       })
       .afterClosed().subscribe(result => {
         if (result.redirect) {
           this.parentComponent.index = 1;
         }
-        console.log(result);
       });
     }
 }

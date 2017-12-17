@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { UserProfileService, UserProfile } from '../user-profile/user-profile.service';
+import { UserProfileService, UserProfile } from '../services/user-profile.service';
 import { BalanceService, CurrencyBalance } from '../services/balance.service';
-import { Currency } from '../services/trade.service';
 
 @Component({
   selector: 'app-user-thumbnail',
@@ -15,6 +14,7 @@ export class UserThumbnailComponent implements OnInit {
   userBalanceInfo: string;
 
   constructor(private profileService: UserProfileService) { 
+    console.log("UserThumbnail.constructor was called");
     profileService.getCurrentUser().subscribe(
       profile => {
         this.profile = profile;
@@ -26,5 +26,6 @@ export class UserThumbnailComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("UserThumbnail.ngOnInit was called");
   }
 }

@@ -7,12 +7,12 @@ import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
   styleUrls: ['./deposit-currency.component.css']
 })
 export class DepositCurrencyComponent implements OnInit {
-  currency: string;
+  address: string;
 
   constructor(
     public dialogRef: MatDialogRef<DepositCurrencyComponent>, 
     @Inject(MAT_DIALOG_DATA) data: any) {
-      this.currency = data.currency;
+      this.address = data.address;
     }
 
   ngOnInit() {
