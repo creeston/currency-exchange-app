@@ -1,32 +1,59 @@
-<mat-list>
-  <mat-list-item *ngFor="let trade of activeTrades">
-    <mat-card>
-      <mat-card-header>
-        <img mat-card-avatar [src]="getUserImageUrl(trade)" (click)="openProfileForm(trade)">
-        <mat-card-title>
-          <div class="trade-title">{{getPartnerName(trade)}} is {{getTradeTypeName(trade)}} {{createTradeDescription(trade)}}
+<div [hidden]="tradesLoaded" class="spinner">
+    <mat-spinner [diameter]="50"></mat-spinner>
+</div>
+<div class="container" [hidden]="!tradesLoaded">
+  <button mat-icon-button (click)="loadTrades()" class="refresh_button">
+    <mat-icon>cached</mat-icon>
+  </button>
+  <mat-list>
+    <mat-list-item *ngFor="let trade of activeTrades">
+      <mat-card>
+        <mat-card-header>
+          <img mat-card-avatar [src]="getUserImageUrl(trade)" (click)="openProfileForm(trade)">
+          <mat-card-title>
+            <div class="trade-title">{{getPartnerName(trade)}} is {{getTradeTypeName(trade)}} {{createTradeDescription(trade)}}
+              using {{getPaymentMethodName(trade)}}
+              </div>
+          </mat-card-title>
+          <mat-card-subtitle>
+            <div *ngIf="trade.buyer.id === profile.id">
+              <div *ngIf="trade.status == 3">
+                <p>Waiting for an approval...</p>
+              </div>
             </div>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-actions>
-        <div *ngIf="trade.buyer.id === profile.id">
-          <div *ngIf="trade.status == 1">
-            <button mat-raised-button (click)="changeStatus(trade, 2)">Begin money transition</button>
+            <div *ngIf="trade.seller.id === profile.id">
+              <div *ngIf="trade.status == 1">
+                <p>Money transition isn't started</p>
+              </div>
+              <div *ngIf="trade.status == 2">
+                <p>Money transition was started started</p>
+              </div>          
+            </div>
+            <div *ngIf="trade.status == 5">
+              <p>Trade completed! Please rate the user</p>
+            </div>        
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions>
+          <div *ngIf="trade.buyer.id === profile.id">
+            <div *ngIf="trade.status == 1">
+              <button mat-raised-button (click)="changeStatus(trade, 2)">Begin money transition</button>
+            </div>
+            <div *ngIf="trade.status == 2">
+              <button mat-raised-button (click)="changeStatus(trade, 3)">End money transition</button>
+            </div>
           </div>
-          <div *ngIf="trade.status == 2">
-            <button mat-raised-button (click)="changeStatus(trade, 3)">End money transition</button>
+          <div *ngIf="trade.seller.id === profile.id">
+            <div *ngIf="trade.status == 3">
+              <button mat-raised-button (click)="changeStatus(trade, 4)">Approve money transition</button>
+            </div>
           </div>
-        </div>
-        <div *ngIf="trade.seller.id === profile.id">
-          <div *ngIf="trade.status == 3">
-            <button mat-raised-button (click)="changeStatus(trade, 4)">Approve money transition</button>
-          </div>
-        </div>
-        <div *ngIf="trade.status == 5">
-          <button mat-raised-button (click)="rateUser(trade)">Rate user</button>
-          <mat-slider [max]="5" [min]="0" [step]="1" [thumb-label]="true" [(ngModel)]="trade.rateTicket.rate"></mat-slider>
-        </div>        
-      </mat-card-actions>
-    </mat-card>
-  </mat-list-item>
-</mat-list>
+          <div *ngIf="trade.status == 5">
+            <button mat-raised-button (click)="rateUser(trade)">Rate user</button>
+            <mat-slider [max]="5" [min]="0" [step]="1" [thumb-label]="true" [(ngModel)]="trade.rateTicket.rate"></mat-slider>
+          </div>        
+        </mat-card-actions>
+      </mat-card>
+    </mat-list-item>
+  </mat-list>
+</div>

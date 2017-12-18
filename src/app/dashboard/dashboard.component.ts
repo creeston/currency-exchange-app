@@ -16,6 +16,11 @@ export class DashboardComponent implements OnInit {
   userWallets: string[] = [];
 
   constructor(public dialog: MatDialog, private router: Router, private balanceService: BalanceService, public snackBar: MatSnackBar) { 
+    if (this.balanceService.wallets) {
+      for (let i = 0; i < this.balanceService.wallets.length; i++) {
+        this.userWallets[this.balanceService.wallets[i].currency] = this.balanceService.wallets[i].address;
+      };
+    }
     this.balanceService.getUserWallets()
     .subscribe(wallets => {
       for (let i = 0; i < wallets.length; i++) {

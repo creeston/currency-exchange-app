@@ -1,12 +1,12 @@
-body {
-  }
-  
 .form-line {
     width: 100%;
 }
 
 .container {
     text-align: center;
+    width: 100%;
+    height: 350px;
+    padding-left: 30%;
 }
   
 .card {
@@ -25,10 +25,9 @@ body {
 }
   
 .flip {
-    position: absolute;
     text-align: center;
     float:left;
-    margin-left: 14%;
+    margin: 0 auto;
     overflow:hidden;
     width: 350px;
     height: 350px;
@@ -80,6 +79,7 @@ body {
       color: #4189C7;
       font-size: 9em;
       margin: 0;
+      text-align: center;
   }
 
   p.description {
@@ -126,4 +126,24 @@ div.forms > div {
 
 mat-form-field {
     width: 65%;
+}
+
+.mat-spinner {
+    display: block;
+    margin: 0 auto;
+}
+
+.back_button {
+    text-decoration: underline;
+    color: grey;
+    float: left;
+}
+
+.next-button {
+    float: left;
+}
+
+.reg_1_buttons {
+    width: 200px;
+    margin: 0 auto;
 }

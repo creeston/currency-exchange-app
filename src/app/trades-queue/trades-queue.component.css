@@ -1,9 +1,7 @@
 .mat-list {
     min-height: 500px;
     height: 100%;
-    padding-top: 50px;
-    width: 420px;
-    float: left;
+    width: 100%;
 }
 
 .mat-list-item {
@@ -22,8 +20,6 @@
     display: inline-block;
 }
 
-.mat-card-title {}
- 
 .context-menu-button {
     float: right;
     margin-top: -30px;
@@ -31,11 +27,14 @@
 }
 
 .add-button {
-    float: left;
-    margin-left: 30px;
-    margin-top: 30px;
-    position: fixed;
+    display: block;
+    margin: 10px auto;
+    margin-top: 15px;
 }   
+
+.trades_with_button {
+    width: 420px;
+}
 
 .mat-spinner {
     position: relative;

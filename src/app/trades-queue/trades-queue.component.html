@@ -1,35 +1,33 @@
 <div [hidden]="tradesLoaded" class="spinner">
   <mat-spinner></mat-spinner>
 </div>
-<mat-list>
-  <mat-list-item *ngFor="let trade of trades">
-    <mat-card>
-      <mat-card-header>
-        <img mat-card-avatar [src]="getImageUrl(trade.firstCurrency)">
-          <mat-card-title>
-            <div class="trade-title">{{createTradeDescription(trade)}}</div>
-            <button class="context-menu-button" mat-icon-button [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
+<div class="trades_with_button" [hidden]="!tradesLoaded">
+    <button mat-raised-button class="add-button" (click)="openTradeDialog()">
+        <mat-icon>add</mat-icon>New trade
+      </button>
+      <mat-list>
+        <mat-list-item *ngFor="let trade of trades">
+          <mat-card>
+            <mat-card-header>
+              <img mat-card-avatar [src]="getImageUrl(trade.firstCurrency)">
+                <mat-card-title>
+                  <div class="trade-title">{{createTradeDescription(trade)}}</div>
+                  <button class="context-menu-button" mat-icon-button [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openOffersView(trade)">
+                <mat-icon>group</mat-icon>
+                <span>Show offers</span>
               </button>
-          </mat-card-title>
-      </mat-card-header>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item (click)="openOffersView(trade)">
-          <mat-icon>group</mat-icon>
-          <span>Show offers</span>
-        </button>
-        <button mat-menu-item>
-          <mat-icon>edit</mat-icon>
-          <span>Edit</span>
-        </button>
-        <button mat-menu-item (click)=deleteTrade(trade)>
-          <mat-icon>clear</mat-icon>
-          <span>Delete</span>
-        </button>
-      </mat-menu>
-    </mat-card>
-  </mat-list-item>
-</mat-list>
-<button [hidden]="tradesLoaded" mat-icon-button class="add-button" (click)="openTradeDialog()">
-  <mat-icon>add_circle_outline</mat-icon>
-</button>
+              <button mat-menu-item (click)=deleteTrade(trade)>
+                <mat-icon>clear</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+          </mat-card>
+        </mat-list-item>
+      </mat-list>
+</div>

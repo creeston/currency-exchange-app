@@ -28,4 +28,12 @@ export class TradesComponent implements OnInit {
     this.completedTradesComponent.loadTrades();
     this.index = 2;
   }
+
+  focusChange(){
+    console.log("FocusChange called");
+  }
+
+  indexChanged() {
+    console.log("indexChanged called");
+  }
 }

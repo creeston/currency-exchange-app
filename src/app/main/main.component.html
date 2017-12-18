@@ -1,17 +1,21 @@
-<mat-toolbar class="menu-header">
-  <div class="menu-header-inner">
-      <div class="menu-options">
-          <a mat-raised-button routerLink="dashboard" class="side-nav-option">
-            <mat-icon>home</mat-icon>Dashboard
-          </a>
-          <a mat-raised-button routerLink="trades" class="side-nav-option">
-            <mat-icon>people</mat-icon>Trades
-          </a>
-        </div>
-        <span class="example-spacer"></span>
-        <app-user-thumbnail></app-user-thumbnail>
-  </div>
-</mat-toolbar>
-<div class="example-container">
-    <router-outlet></router-outlet>    
+<div class="outer">
+  <div class="content">
+    <mat-toolbar class="menu-header">
+      <div class="menu-header-inner">
+          <div class="menu-options">
+              <a mat-raised-button routerLink="dashboard" class="side-nav-option">
+                <mat-icon>home</mat-icon>Dashboard
+              </a>
+              <a mat-raised-button routerLink="trades" class="side-nav-option">
+                <mat-icon>people</mat-icon>Trades
+              </a>
+            </div>
+            <span class="example-spacer"></span>
+            <app-user-thumbnail></app-user-thumbnail>
+      </div>
+    </mat-toolbar>
+    <div class="example-container">
+        <router-outlet></router-outlet>    
+    </div>
+      </div>
 </div>

@@ -32,7 +32,7 @@
   font-size: 1.5em;
   height: 70px;
   z-index: 2;
-  background: rgba(165, 188, 206, 0.72);
+  background-color: rgb(188, 211, 228);
 }
 
 .menu-options {
@@ -51,4 +51,15 @@
   float: left;
   width: 130px;
   margin-right: 20px;
+}
+
+.content {
+  width: 720px;
+  display: block;
+  margin: 0 auto;
+  background-color: white;
+}
+
+.outer {
+  background-color: rgb(188, 211, 228);
 }

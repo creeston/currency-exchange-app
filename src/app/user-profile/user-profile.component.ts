@@ -6,6 +6,8 @@ import { AddPaymentComponent } from '../add-payment/add-payment.component'
 import { AddContactComponent } from '../add-contact/add-contact.component'
 import { UserProfileService } from '../services/user-profile.service';
 import { PaymentRequisite, PaymentMethod } from '../services/payment-method.service';
+import { ContactInformation, ContactMethod } from '../services/contact-information.service';
+import { EnumHelper } from '../enum-helper';
 
 @Component({
   selector: 'app-user-profile',
@@ -16,23 +18,23 @@ export class UserProfileComponent implements OnInit {
   username: string;
   email: string;
   paymentRequisites: PaymentRequisite[];
-
-  contractInformations: any[] = [
-    {data: 'id29198680', name: 'VK'},
-    {data: '+375445822205', name: 'Telegram'}
-  ]
-
+  contactInformation: ContactInformation[];
   rate: number;
   trades_count: number;
   
   constructor(private profileService: UserProfileService, public dialog: MatDialog) { 
-    profileService.getCurrentUser().subscribe(
+    this.loadProfile();
+  }
+
+  loadProfile() {
+    this.profileService.getCurrentUser().subscribe(
       profile => {
         this.username = profile.username;
         this.email = profile.email;
         this.rate = profile.rating;
         this.trades_count = profile.completedTrades;
         this.paymentRequisites = profile.paymentRequisites;
+        this.contactInformation = profile.contactInformation;
       }, error => {
         console.log(error);
       }
@@ -47,6 +49,10 @@ export class UserProfileComponent implements OnInit {
     } else {
       return "Yandex.Money";
     }
+  }
+
+  getContactMethod(m: ContactMethod) {
+    return EnumHelper.contactMethodToString(m);
   }
 
   ngOnInit() {
@@ -68,12 +74,14 @@ export class UserProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(AddPaymentComponent, {
       width: '300px'
     });
+    dialogRef.afterClosed().subscribe(success => this.loadProfile())
   }
 
   openAddContactForm() {
     let dialogRef = this.dialog.open(AddContactComponent, {
       width: '300px'
     });
+    dialogRef.afterClosed().subscribe(success => this.loadProfile())
   }
 
 }

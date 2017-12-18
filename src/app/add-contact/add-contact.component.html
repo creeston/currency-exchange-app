@@ -1,6 +1,6 @@
 <form #contactForm="ngForm" (submit)="addContact(contactForm)">
   <mat-form-field>
-    <mat-select placeholder="Contact type" [(value)]="contact.type" name="type">
+    <mat-select placeholder="Contact type" [(ngModel)]="contact.method" name="type">
       <mat-option *ngFor="let type of contactTypes" [value]="type.value">
         {{ type.viewValue }}
       </mat-option>

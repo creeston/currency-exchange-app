@@ -74,6 +74,9 @@ import { HeadersProvider } from './services/headers-provider'
 import { RateService } from './services/rate.service';
 import { UserProfileDialogComponent } from './user-profile-dialog/user-profile-dialog.component';
 import { CompletedTradesComponent } from './completed-trades/completed-trades.component';
+import { EmailConfirmationService } from './services/email-confirmation.service';
+import { RegistrationService } from './services/registration.service'
+import { ContactInformationService } from './services/contact-information.service';
 
 const routes: Routes = [
   {
@@ -173,7 +176,7 @@ export class MaterialModule {}
     NgxChartsModule
   ],
   providers: [AuthService, LoginService, CurrencyDataService, TradeService, UserProfileService, BalanceService, PaymentMethodService,
-  ActiveTradeService, HeadersProvider, RateService],
+  ActiveTradeService, HeadersProvider, RateService, EmailConfirmationService, RegistrationService, ContactInformationService],
   bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent,
     ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent, TradeOffersComponent,
     UserProfileDialogComponent]

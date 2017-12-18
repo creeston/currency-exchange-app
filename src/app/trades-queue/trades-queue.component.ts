@@ -78,7 +78,7 @@ export class TradesQueueComponent implements OnInit {
       })
       .afterClosed().subscribe(result => {
         if (result.redirect) {
-          this.parentComponent.index = 1;
+          this.parentComponent.switchToActiveTrade();
         }
       });
     }

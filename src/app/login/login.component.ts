@@ -11,7 +11,9 @@ import {
   animate,
   transition
 } from '@angular/animations';
-import { ErrorStateMatcher } from '@angular/material';
+import { ErrorStateMatcher, MatSnackBar } from '@angular/material';
+import { EmailConfirmationService } from '../services/email-confirmation.service';
+import { RegistrationInfo, RegistrationService } from '../services/registration.service';
 
 @Component({
   selector: 'app-login',
@@ -30,7 +32,8 @@ import { ErrorStateMatcher } from '@angular/material';
       })),
       transition('login => register_1', animate('300ms ease-in')),
       transition('register_1 => register_2', animate('300ms ease-in')),
-      transition('register_2 => login', animate('0ms ease-out'))
+      transition('register_2 => register_1', animate('300ms ease-in')),
+      transition('register_1 => login', animate('300ms ease-in'))
     ])
   ]
 })
@@ -45,7 +48,9 @@ export class LoginComponent implements OnInit {
   public formState: string = "login"
   public validationMessage: string;
   public regForm: FormGroup;
-  matcher = new MyErrorStateMatcher();
+  registrationButtonPressed: boolean = false;
+  matcher = new MyErrorStateMatcher(this);
+  isNameAlreadyExist: boolean = false;
 
   private customValidator(control) {
     if (this.regForm === undefined) {
@@ -56,6 +61,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService,
+    private emailConfirmationService: EmailConfirmationService,
+    private registrationService: RegistrationService,
+    private snackBar: MatSnackBar,
     fb: FormBuilder) {
       this.regForm = fb.group({
         username : ['', Validators.required],
@@ -102,17 +110,44 @@ export class LoginComponent implements OnInit {
   }
 
   signUp() {
-  }
-
-  sendCode() {
-
-  }
-
-  proceedSignUp() {
     if (!this.regForm.valid) {
       return;
     }
-    this.toggleState();
+    this.registrationButtonPressed = true;
+    this.registrationInfo.Email = this.regForm.controls.email.value;
+    this.registrationInfo.Username = this.regForm.controls.username.value;
+    this.registrationInfo.Password = this.regForm.controls.password.value;
+    this.registrationService.registerUser(this.registrationInfo)
+    .subscribe(success => {
+      this.loginService.login(this.registrationInfo.Username, this.registrationInfo.Password)
+      .subscribe(success => {
+        this.router.navigate(['home']);
+      })
+    }, error => {
+      this.registrationButtonPressed = false;
+      this.snackBar.open(JSON.stringify(error), "close", {duration: 3000});
+    })
+  }
+
+  sendCode() {
+    this.emailConfirmationService.sendEmailConfirmationCode(this.regForm.controls.email.value)
+    .subscribe(success => this.snackBar.open("Code sent", "close", {duration: 2000}))
+  }
+
+  proceedSignUp() {
+    this.isNameAlreadyExist = false;
+    if (!this.regForm.valid) {
+      return;
+    }
+    this.registrationService.isNameUnique(this.regForm.controls.username.value)
+    .subscribe(result => {
+      if (result) {
+        this.toggleState();
+      } else {
+        this.isNameAlreadyExist = true;//this.snackBar.open("Name is already taken", "close", {duration: 2000});
+        return;
+      }
+    })
   }
 
   private Flip() {
@@ -128,6 +163,14 @@ export class LoginComponent implements OnInit {
     } else if (this.formState == "register_1") {
       this.formState = "register_2";
     } else {
+      this.formState = "register_1";
+    }
+  }
+
+  backState() {
+    if (this.formState == "register_2") {
+      this.formState = "register_1";
+    } else if (this.formState == "register_1"){
       this.formState = "login";
     }
   }
@@ -143,16 +186,20 @@ export class User {
   public Password: string;
 }
 
-export class RegistrationInfo {
-  public Username: string;
-  public Password: string;
-  public RepeatedPassword: string;
-  public Email: string;
-  public ConfirmationCode: string;
-}
-
 export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    return true;
+  constructor(private component: LoginComponent) {
+
+  }
+  isErrorState(control: FormControl | null, form: NgForm): boolean {
+    if (form != undefined && form.form != undefined && form.form.controls != undefined)
+    {
+      if (control === form.form.controls.repeatedPassword)
+      {
+        return form.form.controls.password.value != form.form.controls.repeatedPassword.value;
+      } else if (control === form.form.controls.username) {
+        return this.component.isNameAlreadyExist;
+      }
+    }
+    return false;
   }
 }

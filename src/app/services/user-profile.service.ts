@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { PaymentRequisite } from '../services/payment-method.service';
 import { AuthService } from '../auth.service';
 import { HeadersProvider } from './headers-provider';
+import { ContactInformation } from './contact-information.service';
 
 @Injectable()
 export class UserProfileService {
@@ -29,7 +30,7 @@ export class UserProfileService {
   }
 
   getUser(userId: number): Observable<UserProfile>{
-    return this.http.get(`${this.currentProfileEndpoint}${userId}`, this.headersProvider.getHeaders())
+    return this.http.get(`${this.usersEndpoint}${userId}.json`, this.headersProvider.getHeaders())
     .map(response => {
       return new UserProfile(response.json());
     })
@@ -51,11 +52,12 @@ export class UserProfile {
     this.email = r.email;
     this.username = r.username;
     if (r.rating && r.rating.rate__avg) {
-      this.rating = r.rating.rate__avg;
+      this.rating = Number((r.rating.rate__avg).toFixed(1));
     } else {
       this.rating = 0;
     }
     this.paymentRequisites = r.payment_requisites && r.payment_requisites.map(r => new PaymentRequisite(r));
+    this.contactInformation = r.contact_information && r.contact_information.map(r => new ContactInformation(r))
   }
 
   id: number;
@@ -63,5 +65,6 @@ export class UserProfile {
   email: string;
   username: string;
   rating: number;
-  paymentRequisites: PaymentRequisite[]
+  paymentRequisites: PaymentRequisite[];
+  contactInformation: ContactInformation[];
 }

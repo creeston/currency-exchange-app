@@ -17,6 +17,7 @@ export class ActiveTradesComponent implements OnInit {
   activeTrades: ActiveTrade[];
   parentComponent: TradesComponent;
   profile: UserProfile;
+  tradesLoaded: boolean = false;
 
   constructor(
     private profileService: UserProfileService,
@@ -39,8 +40,8 @@ export class ActiveTradesComponent implements OnInit {
 
   openProfileForm(trade: ActiveTrade) {
     let dialogRef = this.dialog.open(UserProfileDialogComponent, {
-      width: '500px',
-      data: { userId: this.getPartnerId(trade) }
+      width: '550px',
+      data: this.getPartnerId(trade)
     })
   }
 
@@ -68,9 +69,15 @@ export class ActiveTradesComponent implements OnInit {
     }
   }
 
+  getPaymentMethodName(trade: ActiveTrade) {
+    return EnumHelper.paymentMethodToString(trade.paymentMethod);
+  }
+
   loadTrades() {
+    this.tradesLoaded = false;
     this.tradeService.listActiveTrades().subscribe(result => {
       this.activeTrades = result.filter(t => !t.rateTicket.rate);
+      this.tradesLoaded = true;
     });
   }
 

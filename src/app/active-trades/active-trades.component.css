@@ -1,9 +1,17 @@
 .mat-list {
     min-height: 500px;
     height: 100%;
-    padding-top: 50px;
-    width: 420px;
+    width: 100%;
     float: left;
+}
+
+.container {
+    width: 420px;
+}
+
+.refresh_button {
+    display: block;
+    margin: 10px auto;
 }
 
 .mat-list-item {
@@ -12,7 +20,7 @@
 
 .mat-card {
     width: 400px;
-    height: 30px;
+    height: 50px;
     padding: 15px 15px 22px 15px;
     font-size: 1.5em;
 }
@@ -22,23 +30,12 @@
     display: inline-block;
 }
 
-.mat-card-title {}
- 
-.context-menu-button {
-    float: right;
-    margin-top: -30px;
-    margin-right: -20px;
+.spinner {
+    height: 150px;
+    width: 420px;
 }
 
-.add-button {
-    float: left;
-    margin-left: 30px;
-    margin-top: 30px;
-    position: fixed;
-}   
-
 .mat-spinner {
-    position: relative;
-    top: 200px;
-    left: 200px;
+    margin: 0 auto;
+    margin-top: 40px;
 }

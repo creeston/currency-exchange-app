@@ -19,10 +19,10 @@
     <button mat-icon-button (click)="openAddPaymentForm()"><mat-icon>add</mat-icon></button>
     <mat-divider></mat-divider>
     <h3 mat-subheader>Contact information</h3>
-    <mat-list-item *ngFor="let info of contractInformations">
+    <mat-list-item *ngFor="let info of contactInformation">
       <mat-icon mat-list-icon>contact_mail</mat-icon>
       <h4 mat-line>{{info.data}}</h4>
-      <p mat-line> {{info.name}} </p>
+      <p mat-line>{{getContactMethod(info.method)}}</p>
     </mat-list-item>
     <button mat-icon-button (click)="openAddContactForm()"><mat-icon>add</mat-icon></button>
   </mat-list>

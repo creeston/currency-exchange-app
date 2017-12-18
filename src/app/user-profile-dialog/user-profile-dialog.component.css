@@ -1,0 +1,17 @@
+.user-info {
+    text-align: center;
+}
+
+.mat-list {
+    width: 35%;
+    margin: 0 auto;
+}
+
+.mat-slider{ 
+    width: 35%;
+}
+
+.mat-list-item {
+    width: 350px;
+    text-align: left;
+}

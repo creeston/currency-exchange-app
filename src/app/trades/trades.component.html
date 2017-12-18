@@ -1,4 +1,4 @@
-<mat-tab-group [dynamicHeight]="true" [(selectedIndex)]="index">
+<mat-tab-group [dynamicHeight]="true" [(selectedIndex)]="index" (selectedIndexChange)="indexChanged()" (focusChange)="focusChange()">
   <mat-tab label="In queue"><app-trades-queue></app-trades-queue></mat-tab>
   <mat-tab label="In progress"><app-active-trades #activeTrades></app-active-trades></mat-tab>
   <mat-tab label="Completed"><app-completed-trades #completedTrades></app-completed-trades></mat-tab>

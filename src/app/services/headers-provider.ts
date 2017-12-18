@@ -11,4 +11,8 @@ export class HeadersProvider {
     getHeaders(): RequestOptionsArgs {
         return {headers: new Headers({'Content-Type': 'application/json', 'Authorization': `Token ${this.authService.token}`})};
     }
+
+    getHeadersWithoutAuth(): RequestOptionsArgs {
+        return {headers: new Headers({'Content-Type': 'application/json'})};
+    }
 }

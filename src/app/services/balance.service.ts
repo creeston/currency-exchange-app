@@ -11,6 +11,9 @@ import { HeadersProvider } from './headers-provider';
 export class BalanceService {
   private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/balance';
   private walletEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/current_user_wallet';
+
+  balance: number[];
+  wallets: UserWallet[];
   
   constructor(private http: Http, private headersProvider: HeadersProvider) {
   }
@@ -23,6 +26,7 @@ export class BalanceService {
       balance[Currency.BTC] = r.BTC;
       balance[Currency.LTC] = r.LTC;
       balance[Currency.ETH] = r.ETH;
+      this.balance = balance;
       return balance;
     })
     .catch((error:any) => {
@@ -33,7 +37,10 @@ export class BalanceService {
 
   getUserWallets(): Observable<UserWallet[]> {
     return this.http.get(this.walletEndpoint, this.headersProvider.getHeaders())
-    .map(result => result.json().map(r => new UserWallet(r)));
+    .map(result => {
+      this.wallets = result.json().map(r => new UserWallet(r));
+      return this.wallets;
+    });
   }
 }
 

@@ -1,3 +1,40 @@
-<p>
-  user-profile-dialog works!
-</p>
+<div class="user-info">
+  <mat-form-field>
+    <input matInput placeholder="Username" [(ngModel)]="username" [readonly]="true">
+  </mat-form-field>
+  <mat-list>
+    <h3 mat-subheader>Payment requisites</h3>
+    <mat-list-item *ngFor="let req of paymentRequisites">
+      <mat-icon mat-list-icon>payment</mat-icon>
+      <h4 mat-line>{{req.data}}</h4>
+      <p mat-line> {{getPaymentMethod(req.method)}} </p>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+    <h3 mat-subheader>Contact information</h3>
+    <mat-list-item *ngFor="let info of contactInformation">
+      <mat-icon mat-list-icon>contact_mail</mat-icon>
+      <h4 mat-line>{{info.data}}</h4>
+      <p mat-line>{{getContactMethod(info.method)}}</p>
+    </mat-list-item>
+  </mat-list>
+  <mat-card class="result">
+    <mat-card-content>
+      <h2 class="example-h2">Rate</h2>
+      <mat-slider
+          class="example-margin"
+          [disabled]="true"
+          [invert]="invert"
+          [max]="5"
+          [min]="0"
+          [step]="0.1"
+          [thumb-label]="false"
+          [tick-interval]="false"
+          [(ngModel)]="rate"
+          [vertical]="false">
+      </mat-slider>{{rate}}<br>
+      <mat-form-field>
+        <input matInput placeholder="Completed trades" [(ngModel)]="trades_count" [readonly]="true">
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -3,24 +3,27 @@
       <input matInput placeholder="Balance" [(ngModel)]="currencyBalance" [readonly]="true">
   </mat-form-field>
   <mat-form-field>
-    <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="currencyChanged()">
+    <mat-select [(ngModel)]="selectedCurrency" (selectionChange)="currencyChanged()" [disabled]="!isBalanceLoaded">
       <mat-option value=4>BTC</mat-option>
       <mat-option value=5>LTC</mat-option>
       <mat-option value=6>ETH</mat-option>
     </mat-select>
   </mat-form-field>
-  <ngx-charts-line-chart
-      [view]="view"
-      [scheme]="colorScheme"
-      [results]="multi"
-      [gradient]="gradient"
-      [xAxis]="showXAxis"
-      [yAxis]="showYAxis"
-      [showXAxisLabel]="showXAxisLabel"
-      [showYAxisLabel]="showYAxisLabel"
-      [yAxisLabel]="yAxisLabel"
-      [autoScale]="autoScale"
-      (select)="onSelect($event)">
-      </ngx-charts-line-chart>
+  <div *ngIf="selectedCurrency == 4">
+    <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="currencyCharts[0]"
+    [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [yAxisLabel]="$" [autoScale]="true">
+    </ngx-charts-line-chart>
+  </div>
+  <div *ngIf="selectedCurrency == 5">
+    <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="currencyCharts[1]"
+    [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [yAxisLabel]="$" [autoScale]="true">
+    </ngx-charts-line-chart>
+  </div>
+  <div *ngIf="selectedCurrency == 6">
+    <ngx-charts-line-chart [view]="view" [scheme]="colorScheme" [results]="currencyCharts[2]"
+    [xAxis]="true" [yAxis]="true" [showXAxisLabel]="true" [showYAxisLabel]="true" [yAxisLabel]="$" [autoScale]="true">
+    </ngx-charts-line-chart>
+  </div>
+
 </div>
 
