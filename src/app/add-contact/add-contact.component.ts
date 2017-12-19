@@ -22,8 +22,9 @@ export class AddContactComponent implements OnInit {
   constructor(
     private service: ContactInformationService,
     public dialogRef: MatDialogRef<AddContactComponent>, 
-    @Inject(MAT_DIALOG_DATA) data: any) {
-      
+    @Inject(MAT_DIALOG_DATA) existingContactMethods: ContactMethod[]) {
+      this.contactTypes = this.contactTypes.filter(t => !existingContactMethods.includes(t.value));
+      this.contact.method = this.contactTypes[0].value;
     }
 
   ngOnInit() {

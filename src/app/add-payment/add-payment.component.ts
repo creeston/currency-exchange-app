@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { NgForm } from '@angular/forms';
-import { PaymentRequisite } from '../services/payment-method.service';
+import { PaymentRequisite, PaymentMethod, PaymentMethodService } from '../services/payment-method.service';
 
 @Component({
   selector: 'app-add-payment',
@@ -9,17 +9,20 @@ import { PaymentRequisite } from '../services/payment-method.service';
   styleUrls: ['./add-payment.component.css']
 })
 export class AddPaymentComponent implements OnInit {
-  payment: PaymentRequisite = new PaymentRequisite(null);
+  payment: PaymentRequisite = new PaymentRequisite({method: PaymentMethod.PayPal});
 
   paymentRequisiteTypes: any[] = [
-    {value: 1, viewValue: "PayPal"},
-    {value: 2, viewValue: "Yandex.Money"},
-    {value: 3, viewValue: "QIWI"},
+    {value: PaymentMethod.PayPal, viewValue: "PayPal"},
+    {value: PaymentMethod.YandexMoney, viewValue: "Yandex.Money"},
+    {value: PaymentMethod.QIWI, viewValue: "QIWI"},
   ]
 
   constructor(
+    private service: PaymentMethodService,
     public dialogRef: MatDialogRef<AddPaymentComponent>, 
-    @Inject(MAT_DIALOG_DATA) data: any) {
+    @Inject(MAT_DIALOG_DATA) existingMethods: PaymentMethod[]) {
+      this.paymentRequisiteTypes = this.paymentRequisiteTypes.filter(t => !existingMethods.includes(t.value));
+      this.payment.method = this.paymentRequisiteTypes[0].value;
     }
 
   ngOnInit() {
@@ -29,6 +32,9 @@ export class AddPaymentComponent implements OnInit {
     if (!paymentForm.valid) {
       return;
     }
-    this.dialogRef.close({redirect: true});
+    this.service.addPaymentRequisite(this.payment)
+    .subscribe(r => {
+      this.dialogRef.close({success: true});
+    });
   }
 }

@@ -5,9 +5,10 @@ import { ChangePasswordComponent } from '../change-password/change-password.comp
 import { AddPaymentComponent } from '../add-payment/add-payment.component'
 import { AddContactComponent } from '../add-contact/add-contact.component'
 import { UserProfileService } from '../services/user-profile.service';
-import { PaymentRequisite, PaymentMethod } from '../services/payment-method.service';
-import { ContactInformation, ContactMethod } from '../services/contact-information.service';
+import { PaymentRequisite, PaymentMethod, PaymentMethodService } from '../services/payment-method.service';
+import { ContactInformation, ContactMethod, ContactInformationService } from '../services/contact-information.service';
 import { EnumHelper } from '../enum-helper';
+import { concat } from 'rxjs/operator/concat';
 
 @Component({
   selector: 'app-user-profile',
@@ -22,7 +23,11 @@ export class UserProfileComponent implements OnInit {
   rate: number;
   trades_count: number;
   
-  constructor(private profileService: UserProfileService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
+  constructor(
+    private profileService: UserProfileService, 
+    private paymentService: PaymentMethodService, 
+    private contactInfoService: ContactInformationService,
+    public dialog: MatDialog, public snackBar: MatSnackBar) { 
     this.loadProfile();
   }
 
@@ -77,16 +82,27 @@ export class UserProfileComponent implements OnInit {
   
   openAddPaymentForm() {
     let dialogRef = this.dialog.open(AddPaymentComponent, {
-      width: '300px'
+      width: '300px',
+      data: this.profileService.currentUser.paymentRequisites.map(r => r.method)
     });
     dialogRef.afterClosed().subscribe(success => this.loadProfile())
+  }
+
+  removePayment(payment: PaymentRequisite) {
+    this.paymentService.removeUserPayment(payment.id)
+    .subscribe(r => this.loadProfile());
   }
 
   openAddContactForm() {
     let dialogRef = this.dialog.open(AddContactComponent, {
-      width: '300px'
+      width: '300px',
+      data: this.profileService.currentUser.contactInformation.map(r => r.method)
     });
     dialogRef.afterClosed().subscribe(success => this.loadProfile())
   }
 
+  removeContact(contact: ContactInformation) {
+    this.contactInfoService.removeContactInformation(contact.id)
+    .subscribe(r => this.loadProfile());
+  }
 }

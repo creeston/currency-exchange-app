@@ -7,18 +7,23 @@ import 'rxjs/add/operator/catch'
 
 @Injectable()
 export class ContactInformationService {
-  private endpoint: string = "https://still-escarpment-16037.herokuapp.com/contact_information.json"
+  private endpoint: string = "https://still-escarpment-16037.herokuapp.com/contact_information";
   
 
   constructor(private http: Http, private headersProvider: HeadersProvider) { }
 
   listContactInformation(): Observable<ContactInformation[]> {
-    return this.http.get(this.endpoint, this.headersProvider.getHeaders())
+    return this.http.get(`${this.endpoint}.json`, this.headersProvider.getHeaders())
     .map(result => result.json().map(r => new ContactInformation(r)))
   }
 
   addContactInformation(info: ContactInformation): Observable<boolean> {
-    return this.http.post(this.endpoint, JSON.stringify(new JContactInformation(info)), this.headersProvider.getHeaders())
+    return this.http.post(`${this.endpoint}.json`, JSON.stringify(new JContactInformation(info)), this.headersProvider.getHeaders())
+    .map(r => true);
+  }
+
+  removeContactInformation(id: number): Observable<boolean> {
+    return this.http.delete(`${this.endpoint}/${id}.json`, this.headersProvider.getHeaders())
     .map(r => true);
   }
 
@@ -41,8 +46,10 @@ export class ContactInformation {
     }
     this.method = r.contact_method;
     this.data = r.contact_method_data;
+    this.id = r.id;
   }
-
+  
+  id: number;
   method: ContactMethod;
   data: string;
 }

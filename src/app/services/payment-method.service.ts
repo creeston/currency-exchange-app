@@ -8,13 +8,13 @@ import { HeadersProvider } from './headers-provider';
 
 @Injectable()
 export class PaymentMethodService {
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/payment_requisite.json';;
+  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/payment_requisite';
   
   constructor(private http: Http, private headersProvider: HeadersProvider) {
   }
   
   getUserPaymentRequisites(): Observable<PaymentRequisite[]> {
-    return this.http.get(this.endpoint, this.headersProvider.getHeaders())
+    return this.http.get(`${this.endpoint}.json`, this.headersProvider.getHeaders())
     .map(this.mapRequisites)
     .catch((error:any) => {
       console.log(error);
@@ -23,7 +23,7 @@ export class PaymentMethodService {
   }
 
   addPaymentRequisite(requisite: PaymentRequisite): Observable<boolean> {
-    return this.http.post(this.endpoint, JSON.stringify(new JRequisite(requisite)), this.headersProvider.getHeaders())
+    return this.http.post(`${this.endpoint}.json`, JSON.stringify(new JRequisite(requisite)), this.headersProvider.getHeaders())
     .map(result => true)
     .catch((error:any) => {
       console.log(error);
@@ -33,6 +33,11 @@ export class PaymentMethodService {
 
   mapRequisites(response: Response): PaymentRequisite[] {
       return response.json().map(r => new PaymentRequisite(r));
+  }
+
+  removeUserPayment(id: number): Observable<boolean> {
+    return this.http.delete(`${this.endpoint}/${id}.json`, this.headersProvider.getHeaders())
+    .map(r => true);
   }
 
 }
@@ -61,8 +66,10 @@ export class PaymentRequisite {
     }
     this.method = r.payment_method;
     this.data = r.payment_method_data;
+    this.id = r.id;
   }
 
   method: PaymentMethod;
   data: string;
+  id: number;
 }

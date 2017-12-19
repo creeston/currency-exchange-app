@@ -1,6 +1,6 @@
 <form #paymentForm="ngForm" (submit)="addPayment(paymentForm)">
   <mat-form-field>
-    <mat-select placeholder="Payment requisite type" [(value)]="payment.type" name="type">
+    <mat-select placeholder="Payment method" [(ngModel)]="payment.method" name="method">
       <mat-option *ngFor="let type of paymentRequisiteTypes" [value]="type.value">
         {{ type.viewValue }}
       </mat-option>

@@ -15,16 +15,26 @@
       <mat-icon mat-list-icon>payment</mat-icon>
       <h4 mat-line>{{req.data}}</h4>
       <p mat-line> {{getPaymentMethod(req.method)}} </p>
+      <button mat-icon-button (click)="removePayment(req)">
+        <mat-icon>remove</mat-icon>
+      </button>
     </mat-list-item>
-    <button mat-icon-button (click)="openAddPaymentForm()"><mat-icon>add</mat-icon></button>
+    <div *ngIf="paymentRequisites && paymentRequisites.length < 3">
+      <button mat-icon-button (click)="openAddPaymentForm()"><mat-icon>add</mat-icon></button>
+    </div>
     <mat-divider></mat-divider>
     <h3 mat-subheader>Contact information</h3>
     <mat-list-item *ngFor="let info of contactInformation">
       <mat-icon mat-list-icon>contact_mail</mat-icon>
       <h4 mat-line>{{info.data}}</h4>
       <p mat-line>{{getContactMethod(info.method)}}</p>
+      <button mat-icon-button (click)="removeContact(info)">
+        <mat-icon>remove</mat-icon>
+      </button>
     </mat-list-item>
-    <button mat-icon-button (click)="openAddContactForm()"><mat-icon>add</mat-icon></button>
+    <div *ngIf="contactInformation && contactInformation.length < 5">
+      <button mat-icon-button (click)="openAddContactForm()"><mat-icon>add</mat-icon></button>
+    </div>
   </mat-list>
   <mat-card class="result">
     <mat-card-content>
