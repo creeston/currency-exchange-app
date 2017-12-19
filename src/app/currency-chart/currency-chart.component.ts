@@ -16,6 +16,7 @@ export class CurrencyChartComponent implements OnInit {
   private balance: any;
   currencyBalance: number;
   isBalanceLoaded: boolean = false;
+  isChartLoaded: boolean = false;
 
   colorScheme = {
     domain: ['#4189C7', '#A10A28', '#C7B42C', '#AAAAAA']
@@ -38,6 +39,7 @@ export class CurrencyChartComponent implements OnInit {
       "name": "ETH",
       "series": rates.filter(r => r.currency == Currency.ETH).map(r => new ChartElement(r))
     };
+    this.isChartLoaded = true;
   }
   
   constructor(private dataService: CurrencyDataService, private balanceService: BalanceService) {
@@ -50,21 +52,23 @@ export class CurrencyChartComponent implements OnInit {
       })
     }
     if (balanceService.balance) {
-      this.balance = balanceService.balance;
-      this.currencyBalance = this.balance[+this.selectedCurrency];
-      this.isBalanceLoaded = true;
+      this.loadBalance();
     } else {
       balanceService.getBalance().subscribe(
         balance => {
-          this.balance = balance;
-          this.currencyBalance = this.balance[+this.selectedCurrency];
-          this.isBalanceLoaded = true;
+          this.loadBalance();
         },
         error => {
           console.log(error);
         }
       )
     }
+  }
+
+  loadBalance() {
+    this.balance = this.balanceService.balance;
+    this.currencyBalance = this.balance[+this.selectedCurrency];
+    this.isBalanceLoaded = true;
   }
 
   currencyChanged() {

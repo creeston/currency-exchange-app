@@ -10,7 +10,8 @@ import { ContactInformation } from './contact-information.service';
 export class UserProfileService {
   private currentProfileEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/current_user_profile';
   private usersEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/user_profiles/';
-
+  private changePasswordEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/change_password/';
+  
   currentUser: UserProfile;
 
   constructor(private http: Http, private headersProvider: HeadersProvider) {
@@ -40,6 +41,11 @@ export class UserProfileService {
     );
   }
 
+  changeUserPassword(oldPassword: string, newPassowrd: string): Observable<boolean> {
+    let json = JSON.stringify({old_password: oldPassword, new_password: newPassowrd})
+    return this.http.post(this.changePasswordEndpoint, json, this.headersProvider.getHeaders())
+    .map(r => true);
+  }
 }
 
 export class UserProfile {

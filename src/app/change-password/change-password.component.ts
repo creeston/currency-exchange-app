@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, ErrorStateMatcher } from '@angular/material';
 import { NgForm, FormControl, FormGroupDirective } from '@angular/forms';
+import { UserProfileService } from '../services/user-profile.service';
 
 @Component({
   selector: 'app-change-password',
@@ -11,9 +12,11 @@ export class ChangePasswordComponent implements OnInit {
   passwordsNotEqual: boolean = false;
   passwordNotCorrect: boolean = false;
   password: PasswordChangeRequest = new PasswordChangeRequest();
-  matcher = new MyErrorStateMatcher();
+  matcher = new MyErrorStateMatcher(this);
+  changeButtonClicked: boolean = false;
 
   constructor(
+    private userService: UserProfileService,
     public dialogRef: MatDialogRef<ChangePasswordComponent>, 
     @Inject(MAT_DIALOG_DATA) data: any) {
     }
@@ -22,6 +25,8 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword(passwordForm: NgForm) {
+    this.changeButtonClicked = true;
+    this.passwordNotCorrect = false;
     if (!passwordForm.valid) {
       return;
     }
@@ -29,7 +34,12 @@ export class ChangePasswordComponent implements OnInit {
       this.passwordsNotEqual = true;
       return;
     }
-    this.dialogRef.close({redirect: true});
+    this.userService.changeUserPassword(this.password.old, this.password.new)
+    .subscribe(r => {
+      this.dialogRef.close({success: true});
+    }, error => {
+      this.passwordNotCorrect = true;
+    })
   }
 }
 
@@ -40,12 +50,16 @@ export class PasswordChangeRequest {
 }
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
+  constructor(private component: ChangePasswordComponent) {}
+
   isErrorState(control: FormControl | null, form: NgForm): boolean {
     if (form != undefined && form.controls != undefined && form.controls.old != undefined)
     {
       if (control === form.controls.repeatedNew)
       {
         return form.controls.new.value != form.controls.repeatedNew.value;
+      } else if (control == form.controls.old) {
+        return this.component.passwordNotCorrect || (this.component.changeButtonClicked && !control.valid);
       }
     }
     return false;

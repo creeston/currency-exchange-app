@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ChangeEmailComponent } from '../change-email/change-email.component'
 import { ChangePasswordComponent } from '../change-password/change-password.component'
 import { AddPaymentComponent } from '../add-payment/add-payment.component'
@@ -22,7 +22,7 @@ export class UserProfileComponent implements OnInit {
   rate: number;
   trades_count: number;
   
-  constructor(private profileService: UserProfileService, public dialog: MatDialog) { 
+  constructor(private profileService: UserProfileService, public dialog: MatDialog, public snackBar: MatSnackBar) { 
     this.loadProfile();
   }
 
@@ -68,6 +68,11 @@ export class UserProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(ChangePasswordComponent, {
       width: '300px'
     });
+    dialogRef.afterClosed().subscribe(r => {
+      if (r.success) {
+        this.snackBar.open("Password changed!", "close", {duration: 2000});
+      }
+    })
   }
   
   openAddPaymentForm() {

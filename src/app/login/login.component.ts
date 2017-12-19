@@ -14,6 +14,13 @@ import {
 import { ErrorStateMatcher, MatSnackBar } from '@angular/material';
 import { EmailConfirmationService } from '../services/email-confirmation.service';
 import { RegistrationInfo, RegistrationService } from '../services/registration.service';
+import 'rxjs/add/operator/merge'
+import 'rxjs/add/operator/mergeAll'
+import 'rxjs/add/operator/map'
+import { BalanceService } from '../services/balance.service';
+import { UserProfileService } from '../services/user-profile.service';
+import { CurrencyDataService } from '../services/currency-data.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -43,6 +50,7 @@ export class LoginComponent implements OnInit {
   public registrationInfo: RegistrationInfo = new RegistrationInfo();
   private http: Http;
   has_error: Boolean = false;
+  barColor: string = 'primary';
   private success: Boolean = false;
   public loginMessage: string = "";
   public formState: string = "login"
@@ -63,6 +71,9 @@ export class LoginComponent implements OnInit {
     private loginService: LoginService,
     private emailConfirmationService: EmailConfirmationService,
     private registrationService: RegistrationService,
+    private balanceService: BalanceService,
+    private userProfileService: UserProfileService,
+    private chartService: CurrencyDataService,
     private snackBar: MatSnackBar,
     fb: FormBuilder) {
       this.regForm = fb.group({
@@ -89,17 +100,26 @@ export class LoginComponent implements OnInit {
       return;
     }
     this.loginMessage = "";
+    this.barColor = 'primary';
     this.Flip();
     this.loginService.login(this.user.Username, this.user.Password)
     .subscribe(result => {
       if (result == true) {
+        this.barColor = 'primary';
         this.loginMessage = "Login succeeded!";
         this.has_error = false;
+        let profile = this.userProfileService.getCurrentUser();
+        let balance = this.balanceService.getBalance();
+        let chart = this.chartService.getCurrencyRates();
+        Observable.forkJoin(profile, balance, chart)
+        .subscribe(r => {
+          this.router.navigate(['home'])
+        });
       } else {
         this.loginMessage = "Login failed";
         this.has_error = true;
+        this.barColor = 'accent';
       }
-      this.router.navigate(['home']);
     },
     error => {
       let values = Object.keys(error).map(key=>error[key]);
@@ -109,8 +129,10 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  serverErrors = {};
+
   signUp() {
-    if (!this.regForm.valid) {
+    if (!this.regForm.valid || !this.registrationInfo.ConfirmationCode) {
       return;
     }
     this.registrationButtonPressed = true;
@@ -125,7 +147,8 @@ export class LoginComponent implements OnInit {
       })
     }, error => {
       this.registrationButtonPressed = false;
-      this.snackBar.open(JSON.stringify(error), "close", {duration: 3000});
+      this.serverErrors['code'] = error.confirmation_code;
+      //this.snackBar.open(JSON.stringify(error), "close", {duration: 3000});
     })
   }
 
@@ -134,7 +157,10 @@ export class LoginComponent implements OnInit {
     .subscribe(success => this.snackBar.open("Code sent", "close", {duration: 2000}))
   }
 
+  regForm1Touched: boolean = false;
+
   proceedSignUp() {
+    this.regForm1Touched = true;
     this.isNameAlreadyExist = false;
     if (!this.regForm.valid) {
       return;
@@ -197,7 +223,7 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
       {
         return form.form.controls.password.value != form.form.controls.repeatedPassword.value;
       } else if (control === form.form.controls.username) {
-        return this.component.isNameAlreadyExist;
+        return this.component.isNameAlreadyExist || (this.component.regForm1Touched && control.invalid);
       }
     }
     return false;

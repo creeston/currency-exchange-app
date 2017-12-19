@@ -27,8 +27,8 @@
                 </div> 
                 <div class="face back"> 
                     <div class="login_form inner">
+                    <mat-progress-bar mode="indeterminate" [color]="has_error ? 'accent' : 'primary'"></mat-progress-bar>
                         <div class="login_text">
-                            <h3>Loading...</h3>
                             <h3 [ngClass]="{'has_error': has_error}">{{loginMessage}}</h3>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="form_line">
                             <mat-form-field>
                                 <input [errorStateMatcher]="matcher" matInput required placeholder="Username" formControlName="username" name="username">
-                                <mat-error *ngIf="isNameAlreadyExist">Name is already taken</mat-error>
+                                <mat-error>{{isNameAlreadyExist ? 'Name is already taken' : 'Name is required'}}</mat-error>
                             </mat-form-field>
                         </div>
                         <div class="form_line">
@@ -73,16 +73,17 @@
                         <div class="form_line">
                             <mat-form-field>
                                 <input matInput placeholder="Confirmation code" required [(ngModel)]="registrationInfo.ConfirmationCode" name="confirmation">
+                                <mat-error *ngIf="serverErrors['code']">{{serverErrors['code']}}</mat-error>
                             </mat-form-field>
                         </div>
-                        <button mat-button (click)="sendCode()">Send code</button>
+                        <button mat-button type="button" (click)="sendCode()">Send code</button>
+                        <div *ngIf="registrationButtonPressed">
+                            <mat-spinner [diameter]=30></mat-spinner>
+                        </div>
+                        <div *ngIf="!registrationButtonPressed">
+                            <button mat-button (click)="signUp()">Sign up</button>
+                        </div>
                     </form>
-                    <div *ngIf="registrationButtonPressed">
-                        <mat-spinner [diameter]=30></mat-spinner>
-                      </div>
-                      <div *ngIf="!registrationButtonPressed">
-                        <button mat-button (click)="signUp()">Sign up</button>
-                      </div>
                     <button mat-button class="sign_up_button" (click)="backState()">Back</button>
                 </div>
             </div>

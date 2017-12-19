@@ -14,18 +14,23 @@ export class UserThumbnailComponent implements OnInit {
   userBalanceInfo: string;
 
   constructor(private profileService: UserProfileService) { 
-    console.log("UserThumbnail.constructor was called");
+    if (profileService.currentUser) {
+      this.loadUser();
+    }
     profileService.getCurrentUser().subscribe(
       profile => {
-        this.profile = profile;
-        this.userImageUrl = `assets/shibes/${this.profile.id}.jpg`;
+        this.loadUser();
       }, error => {
         console.log(error);
       }
     )
   }
 
+  loadUser() {
+    this.profile = this.profileService.currentUser;
+    this.userImageUrl = `assets/shibes/${this.profile.id}.jpg`;
+  }
+
   ngOnInit() {
-    console.log("UserThumbnail.ngOnInit was called");
   }
 }
