@@ -9,5 +9,10 @@
   <mat-form-field>
     <input matInput placeholder="Contact data" [(ngModel)]="contact.data" required name="data">
   </mat-form-field>
-  <button mat-raised-button type="submit">Submit</button>
+  <div *ngIf="submitButtonPressed">
+    <mat-spinner [diameter]=30></mat-spinner>
+  </div>
+  <div *ngIf="!submitButtonPressed">
+    <button mat-raised-button type="submit">Add</button>
+  </div>
 </form>

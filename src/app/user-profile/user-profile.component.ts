@@ -67,6 +67,11 @@ export class UserProfileComponent implements OnInit {
     let dialogRef = this.dialog.open(ChangeEmailComponent, {
       width: '300px'
     });
+    dialogRef.afterClosed().subscribe(r => {
+      if (r && r.success) {
+        this.loadProfile();
+      }
+    })
   }
 
   openChangePasswordForm() {
@@ -74,7 +79,7 @@ export class UserProfileComponent implements OnInit {
       width: '300px'
     });
     dialogRef.afterClosed().subscribe(r => {
-      if (r.success) {
+      if (r && r.success) {
         this.snackBar.open("Password changed!", "close", {duration: 2000});
       }
     })

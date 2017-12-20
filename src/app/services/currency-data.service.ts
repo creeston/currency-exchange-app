@@ -3,10 +3,12 @@ import { Http } from '@angular/http';
 import { HeadersProvider } from './headers-provider';
 import { Currency } from './trade.service';
 import { Observable } from 'rxjs/Observable';
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class CurrencyDataService {
-  private endpoint: string = "https://still-escarpment-16037.herokuapp.com/currency_rate/";
+  private endpoint: string = `${Constants.HostName}/currency_rate.json`;
   currencyRates: CurrencyRate[];
 
   constructor(private http: Http, private headersProvider: HeadersProvider) { }

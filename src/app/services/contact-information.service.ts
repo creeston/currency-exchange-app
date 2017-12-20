@@ -4,10 +4,12 @@ import { HeadersProvider } from './headers-provider';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class ContactInformationService {
-  private endpoint: string = "https://still-escarpment-16037.herokuapp.com/contact_information";
+  private endpoint: string = `${Constants.HostName}/contact_information`;
   
 
   constructor(private http: Http, private headersProvider: HeadersProvider) { }

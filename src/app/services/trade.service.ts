@@ -7,10 +7,12 @@ import { PaymentMethod } from './payment-method.service'
 import { UserProfile } from './user-profile.service';
 import { AuthService } from '../auth.service';
 import { HeadersProvider } from './headers-provider';
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class TradeService {
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/trade.json';
+  private endpoint: string = `${Constants.HostName}/trade.json`;
   
   constructor(private http: Http, private headersProvider: HeadersProvider) {
   }
@@ -33,7 +35,7 @@ export class TradeService {
   }
 
   deleteTrade(trade: Trade): Observable<boolean> {
-    return this.http.delete(`https://still-escarpment-16037.herokuapp.com/trade/${trade.id}.json`, this.headersProvider.getHeaders())
+    return this.http.delete(`${Constants.HostName}/trade/${trade.id}.json`, this.headersProvider.getHeaders())
     .map(result => {
       return true;
     })
@@ -45,7 +47,7 @@ export class TradeService {
   }
 
   listOffers(tradeId: number): Observable<Trade[]> {
-    return this.http.get(`https://still-escarpment-16037.herokuapp.com/offers/${tradeId}`, this.headersProvider.getHeaders())
+    return this.http.get(`${Constants.HostName}/offers/${tradeId}`, this.headersProvider.getHeaders())
       .map(this.mapTrades)
       .catch((error:any) => {
         console.log(error);
@@ -89,13 +91,13 @@ export class Trade {
       return;
     }
     this.id = r.id;
-    this.firstCurrency = r.first_currency.code;
+    this.firstCurrency = r.first_currency.id || r.first_currency;
     this.firstCurrencyAmount = r.first_currency_amount;
-    this.secondCurrency = r.second_currency.code;
+    this.secondCurrency = r.second_currency.id || r.second_currency;
     this.secondCurrencyAmount = r.second_currency_amount;
     this.firstMinimalOffer = r.first_minimal_offer;
     this.secondMinimalOffer = r.second_minimal_offer;
-    this.type = r.trade_type.id;
+    this.type = r.trade_type.id || r.trade_type;
     this.paymentMethods = r.paymentMethods;
     this.creator = new UserProfile(r.creator);
   }

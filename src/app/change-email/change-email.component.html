@@ -1,10 +1,11 @@
 <form #emailForm="ngForm" (submit)="changeEmail(emailForm)">
   <mat-form-field>
-    <input matInput placeholder="New email" required name="email" [(ngModel)]="email.email">
+    <input matInput placeholder="New email" required type="email" name="email" [(ngModel)]="email.email">
   </mat-form-field>
-  <button mat-raised-button (click)="sendCode()" type="button" >Send confirmation code</button><br>
+  <button mat-raised-button (click)="sendCode(emailForm)" type="button" >Send confirmation code</button><br>
   <mat-form-field>
     <input matInput placeholder="Confirmation code" required name="code" [(ngModel)]="email.code">
+    <mat-error *ngIf="serverErrors['code']">{{serverErrors['code']}}</mat-error>
   </mat-form-field>
   <button mat-raised-button type="submit">Change email</button>
 </form>

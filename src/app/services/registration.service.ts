@@ -4,11 +4,13 @@ import { HeadersProvider } from './headers-provider';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class RegistrationService {
-  private endpoint: string = "https://still-escarpment-16037.herokuapp.com/register/"
-  private nameUniquenessEndpoint: string = "https://still-escarpment-16037.herokuapp.com/is_name_exist/"
+  private endpoint: string = `${Constants.HostName}/register/`;
+  private nameUniquenessEndpoint: string = `${Constants.HostName}/is_name_exist/`;
 
   constructor(private http: Http, private headersProvider: HeadersProvider) { }
 

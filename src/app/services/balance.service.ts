@@ -6,11 +6,13 @@ import 'rxjs/add/operator/catch'
 import { Currency } from './trade.service'
 import { AuthService } from '../auth.service';
 import { HeadersProvider } from './headers-provider';
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class BalanceService {
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/balance';
-  private walletEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/current_user_wallet';
+  private endpoint: string = `${Constants.HostName}/balance`;
+  private walletEndpoint: string = `${Constants.HostName}/current_user_wallet`;
 
   balance: number[];
   wallets: UserWallet[];

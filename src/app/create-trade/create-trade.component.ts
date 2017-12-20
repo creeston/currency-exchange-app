@@ -1,9 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar } from '@angular/material';
 import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { NgForm } from '@angular/forms';
 import { TradeService, Trade, TradeType, Currency } from '../services/trade.service';
 import { PaymentMethod } from '../services/payment-method.service';
+import { UserProfileService } from '../services/user-profile.service';
+import { BalanceService } from '../services/balance.service';
 
 
 @Component({
@@ -36,7 +38,6 @@ export class CreateTradeComponent implements OnInit {
 
   first_currency_amount: FormControl = new FormControl('', [this.greaterThanZeroValidator]);
   second_currency_amount: FormControl = new FormControl('', [this.greaterThanZeroValidator]);
-
   errorMessage: string;
   isPaymentMethodFieldHidden: boolean = true;
 
@@ -59,6 +60,9 @@ export class CreateTradeComponent implements OnInit {
 
   constructor(
     private service: TradeService,
+    private userService: UserProfileService,
+    private balanceService: BalanceService,
+    private snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<CreateTradeComponent>, 
     @Inject(MAT_DIALOG_DATA) data: any,
     fb: FormBuilder) {
@@ -67,23 +71,47 @@ export class CreateTradeComponent implements OnInit {
       }
       this.trade.firstCurrency = data.currency;
       this.trade.type = data.tradeType;
+      let userPaymentMethods = this.userService.currentUser.paymentRequisites.map(r => r.method);
+      this.paymentMethods = this.paymentMethods.filter(m => userPaymentMethods.includes(m.value));
     }
     
     createTrade(tradeForm: NgForm): void {
       this.errorMessage = "";
       if (tradeForm.invalid 
         || this.first_currency_amount.invalid 
-        || this.second_currency_amount.invalid) {
+        || this.second_currency_amount.invalid){
         return;
       }
+      if (this.trade.type == TradeType.Buy) {
+        if (this.trade.secondCurrencyAmount > this.balanceService.balance[this.trade.secondCurrency]) {
+          this.snackBar.open("Not enough balance", "close", {duration: 2000});
+          return;
+        }
+      } else {
+        if (this.trade.firstCurrencyAmount > this.balanceService.balance[this.trade.firstCurrency]) {
+          this.snackBar.open("Not enough balance", "close", {duration: 2000});
+          return;
+        }
+      }
+
+      if (this.trade.firstMinimalOffer > this.trade.firstCurrencyAmount || this.trade.secondMinimalOffer > this.trade.secondCurrencyAmount) {
+        this.snackBar.open("Minimal amount should not exceed the currency amount", "close", {duration: 2000});
+        return;
+      }
+
       this.submitButtonPressed = true;
+      if (!this.trade.paymentMethods) {
+        this.trade.paymentMethods = [];
+      }
       this.service.createTrade(this.trade)
       .subscribe(
         result => {
-          this.dialogRef.close({redirect: true});
+          this.balanceService.getBalance()
+          .subscribe(r => this.dialogRef.close({redirect: true}));
         },
         error => {
-          this.errorMessage = JSON.stringify(error);
+          let key = Object.keys(error)[0]
+          this.snackBar.open(`${key}: ${error[key]}`, "close", {duration: 2000})
           this.submitButtonPressed = false;
         })
     }

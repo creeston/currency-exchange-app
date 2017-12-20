@@ -1,6 +1,12 @@
 .mat-list {
-    max-height: 600px;
+    max-height: 800px;
     width: 400px;
+    margin-top: 10px;
+}
+
+.mat-spinner {
+    display: block;
+    margin: 0 auto;
 }
 
 .mat-card-header {
@@ -8,14 +14,18 @@
 }
 
 .mat-list-item {
-    margin-bottom: 30px;
+    margin-bottom: 65px;
 }
 
 .mat-card {
     width: 500px;
-    height: 50px;
+    height: 70px;
     padding: 15px 15px 22px 15px;
     font-size: 1.5em;
+}
+
+p {
+    margin-bottom: 0px;
 }
 
 .mat-card-title {

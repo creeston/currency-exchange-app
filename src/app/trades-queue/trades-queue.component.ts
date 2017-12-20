@@ -1,10 +1,12 @@
 import { Component, OnInit, Host } from '@angular/core';
-import { TradeService, Trade, TradeType } from '../services/trade.service'
+import { TradeService, Trade, TradeType, Currency } from '../services/trade.service'
 import { MatDialog } from '@angular/material';
 import { CreateTradeComponent } from '../create-trade/create-trade.component';
 import { TradesComponent } from '../trades/trades.component';
 import { TradeOffersComponent } from '../trade-offers/trade-offers.component';
 import { ActiveTradeService } from '../services/active-trade.service';
+import { BalanceService } from '../services/balance.service';
+import { EnumHelper } from '../enum-helper';
 
 @Component({
   selector: 'app-trades-queue',
@@ -17,6 +19,7 @@ export class TradesQueueComponent implements OnInit {
   parentComponent: TradesComponent;
 
   constructor(
+    private balanceService: BalanceService,
     @Host() parent: TradesComponent,
     public dialog: MatDialog, 
     private tradeService: TradeService) {
@@ -35,13 +38,13 @@ export class TradesQueueComponent implements OnInit {
     } else {
       message = "Selling ";
     }
-    message += `${trade.firstCurrencyAmount}(${trade.firstMinimalOffer}) ${trade.firstCurrency} for ${trade.secondCurrencyAmount} ${trade.secondCurrency}`
+    message += `${trade.firstCurrencyAmount}(${trade.firstMinimalOffer}) ${EnumHelper.currencyToString(trade.firstCurrency)} for ${trade.secondCurrencyAmount} ${EnumHelper.currencyToString(trade.secondCurrency)}`
     return message;
   }
 
   deleteTrade(trade: Trade) {
     this.tradeService.deleteTrade(trade).subscribe(success => {
-      this.loadTrades();
+      this.balanceService.getBalance().subscribe(r => this.loadTrades());
     })
   }
 
@@ -53,9 +56,9 @@ export class TradesQueueComponent implements OnInit {
   }
   
     getImageUrl(currencyType) {
-      if (currencyType == "BTC") {
+      if (currencyType == Currency.BTC) {
         return "assets/currencies/btc_icon.jpg";
-      } else if (currencyType == "LTC") {
+      } else if (currencyType == Currency.LTC) {
         return "assets/currencies/ltc_icon.ico";
       } else {
         return "assets/currencies/eth_icon.png";
@@ -73,12 +76,18 @@ export class TradesQueueComponent implements OnInit {
 
     openOffersView(trade: Trade) {
       let dialogRef = this.dialog.open(TradeOffersComponent, {
-        width: '500px',
+        width: '460px',
+        height: '600px',
         data: trade
       })
       .afterClosed().subscribe(result => {
+        if (!result) {
+          return;
+        }
         if (result.redirect) {
           this.parentComponent.switchToActiveTrade();
+        } else if (result.redirectToCompleted) {
+          this.loadTrades();
         }
       });
     }

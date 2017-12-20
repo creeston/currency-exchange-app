@@ -11,11 +11,11 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field [hideRequiredMarker]="true">
-    <input matInput placeholder="first currency value" required type="number" [formControl]="first_currency_amount"  [(ngModel)]="trade.firstCurrencyAmount" name="first_currency_amount">
+    <input matInput placeholder="first currency value" required type="number" min="0" [formControl]="first_currency_amount"  [(ngModel)]="trade.firstCurrencyAmount" name="first_currency_amount">
   </mat-form-field>
   <div [hidden]="trade.type == 2">
     <mat-form-field [hideRequiredMarker]="true">
-      <input matInput placeholder="minimal offer" required type="number" [(ngModel)]="trade.firstMinimalOffer" name="f_minimal_offer">
+      <input matInput placeholder="minimal offer" required type="number" min="0"  [(ngModel)]="trade.firstMinimalOffer" name="f_minimal_offer">
     </mat-form-field>
   </div>
   <mat-form-field [hideRequiredMarker]="true">
@@ -26,11 +26,11 @@
     </mat-select>
   </mat-form-field>
   <mat-form-field [hideRequiredMarker]="true">
-    <input matInput placeholder="second currency value" required type="number" [formControl]="second_currency_amount" [(ngModel)]="trade.secondCurrencyAmount" name="second_currency_amount">
+    <input matInput placeholder="second currency value" required type="number" min="0" [formControl]="second_currency_amount" [(ngModel)]="trade.secondCurrencyAmount" name="second_currency_amount">
   </mat-form-field>
   <div [hidden]="trade.type == 1">
     <mat-form-field [hideRequiredMarker]="true">
-      <input matInput placeholder="minimal offer" required type="number" [(ngModel)]="trade.secondMinimalOffer" name="s_minimal_offer">
+      <input matInput placeholder="minimal offer" type="number" min="0" [(ngModel)]="trade.secondMinimalOffer" name="s_minimal_offer">
     </mat-form-field>
   </div>
   <div [hidden]="isPaymentMethodFieldHidden">

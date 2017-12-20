@@ -9,12 +9,20 @@ import { Trade, TradeType, Currency } from './trade.service'
 import { AuthService } from '../auth.service';
 import { HeadersProvider } from './headers-provider';
 import { RateTicket } from './rate.service'
+import { Constants } from '../constants'
 
 @Injectable()
 export class ActiveTradeService {
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/active_trade';
+  private endpoint: string = `${Constants.HostName}/active_trade`;
+  private cryptoExchangeEndpoint: string = `${Constants.HostName}/exchange_cryptocurrency`
   
   constructor(private http: Http, private headersProvider: HeadersProvider) {
+  }
+
+  exchangeCryptoCurrency(userTrade: Trade, offer:Trade): Observable<boolean> {
+    return this.http.post(this.cryptoExchangeEndpoint, {user_trade: userTrade.id, offer_trade: offer.id}, this.headersProvider.getHeaders())
+    .map(r => true)
+    .catch((error:any) => Observable.throw(error.json() || 'Server error'));
   }
 
 

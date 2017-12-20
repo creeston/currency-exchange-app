@@ -143,7 +143,13 @@ export class LoginComponent implements OnInit {
     .subscribe(success => {
       this.loginService.login(this.registrationInfo.Username, this.registrationInfo.Password)
       .subscribe(success => {
-        this.router.navigate(['home']);
+        let profile = this.userProfileService.getCurrentUser();
+        let balance = this.balanceService.getBalance();
+        let chart = this.chartService.getCurrencyRates();
+        Observable.forkJoin(profile, balance, chart)
+        .subscribe(r => {
+          this.router.navigate(['home'])
+        });
       })
     }, error => {
       this.registrationButtonPressed = false;

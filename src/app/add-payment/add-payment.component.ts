@@ -17,6 +17,8 @@ export class AddPaymentComponent implements OnInit {
     {value: PaymentMethod.QIWI, viewValue: "QIWI"},
   ]
 
+  submitButtonPressed: boolean = false;
+
   constructor(
     private service: PaymentMethodService,
     public dialogRef: MatDialogRef<AddPaymentComponent>, 
@@ -32,6 +34,7 @@ export class AddPaymentComponent implements OnInit {
     if (!paymentForm.valid) {
       return;
     }
+    this.submitButtonPressed = true;
     this.service.addPaymentRequisite(this.payment)
     .subscribe(r => {
       this.dialogRef.close({success: true});

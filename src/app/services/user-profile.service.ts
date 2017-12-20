@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { PaymentRequisite } from '../services/payment-method.service';
 import { AuthService } from '../auth.service';
 import { HeadersProvider } from './headers-provider';
 import { ContactInformation } from './contact-information.service';
+import { Constants } from '../constants'
 
 @Injectable()
 export class UserProfileService {
-  private currentProfileEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/current_user_profile';
-  private usersEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/user_profiles/';
-  private changePasswordEndpoint: string = 'https://still-escarpment-16037.herokuapp.com/change_password/';
+  private currentProfileEndpoint: string = `${Constants.HostName}/current_user_profile`;
+  private usersEndpoint: string = `${Constants.HostName}/user_profiles/`;
+  private changePasswordEndpoint: string = `${Constants.HostName}/change_password/`;
+  private changeEmailEndpoint: string = `${Constants.HostName}/change_email/`;
   
   currentUser: UserProfile;
 
@@ -45,6 +47,13 @@ export class UserProfileService {
     let json = JSON.stringify({old_password: oldPassword, new_password: newPassowrd})
     return this.http.post(this.changePasswordEndpoint, json, this.headersProvider.getHeaders())
     .map(r => true);
+  }
+
+  changeUserEmail(email: string, code: string): Observable<boolean> {
+    let json = JSON.stringify({email: email, code: code});
+    return this.http.post(this.changeEmailEndpoint, json, this.headersProvider.getHeaders())
+    .map(r => true)
+    .catch((error:any) => Observable.throw(error.json() || 'Server error'));;
   }
 }
 

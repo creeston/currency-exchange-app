@@ -5,10 +5,12 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
 import { AuthService } from '../auth.service';
 import { HeadersProvider } from './headers-provider';
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class PaymentMethodService {
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/payment_requisite';
+  private endpoint: string = `${Constants.HostName}/payment_requisite`;
   
   constructor(private http: Http, private headersProvider: HeadersProvider) {
   }

@@ -18,6 +18,8 @@ export class AddContactComponent implements OnInit {
     {value: ContactMethod.Instagram, viewValue: 'Instagram'},
     {value: ContactMethod.Facebook, viewValue: 'Facebook'},
   ]
+  
+  submitButtonPressed: boolean = false;
 
   constructor(
     private service: ContactInformationService,
@@ -34,6 +36,7 @@ export class AddContactComponent implements OnInit {
     if (!contactForm.valid) {
       return;
     }
+    this.submitButtonPressed = true;
     this.service.addContactInformation(this.contact)
     .subscribe(r => {
       this.dialogRef.close({redirect: true});

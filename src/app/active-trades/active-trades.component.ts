@@ -7,6 +7,7 @@ import { TradeType } from '../services/trade.service';
 import { EnumHelper } from '../enum-helper'
 import { RateService } from '../services/rate.service';
 import { UserProfileDialogComponent } from '../user-profile-dialog/user-profile-dialog.component';
+import { BalanceService } from '../services/balance.service';
 
 @Component({
   selector: 'app-active-trades',
@@ -21,13 +22,20 @@ export class ActiveTradesComponent implements OnInit {
 
   constructor(
     private profileService: UserProfileService,
+    private balanceService: BalanceService,
     private rateService: RateService,
     @Host() parent: TradesComponent,
     public dialog: MatDialog, 
     private tradeService: ActiveTradeService) {
       
      this.parentComponent = parent; 
-     this.profile = profileService.currentUser;
+     if (profileService.currentUser) {
+       this.profile = profileService.currentUser;
+     } else {
+       profileService.getCurrentUser().subscribe(profile => {
+         this.profile = profile;
+       })
+     };
      this.loadTrades();
   }
 
@@ -35,7 +43,7 @@ export class ActiveTradesComponent implements OnInit {
   }
 
   createTradeDescription(trade: ActiveTrade): string {
-    return `${trade.cryptoCurrencyAmount} ${EnumHelper.currencyToString(trade.cryptoCurrency)} for ${trade.nationalCurrencyAmount} ${EnumHelper.currencyToString(trade.nationalCurrency)}`
+    return `${Number(trade.cryptoCurrencyAmount).toFixed(4)} ${EnumHelper.currencyToString(trade.cryptoCurrency)} for ${Number(trade.nationalCurrencyAmount).toFixed(4)} ${EnumHelper.currencyToString(trade.nationalCurrency)}`
   }
 
   openProfileForm(trade: ActiveTrade) {
@@ -81,7 +89,8 @@ export class ActiveTradesComponent implements OnInit {
     });
   }
 
-  changeStatus(trade: ActiveTrade, status: ActiveTradeStatus) {
+  changeStatus(trade: any, status: ActiveTradeStatus) {
+    trade.statusChanged = true;
     this.tradeService.updateTradeStatus(trade.id, status).subscribe(success => this.loadTrades());
   }
 
@@ -96,9 +105,12 @@ export class ActiveTradesComponent implements OnInit {
     {return `assets/shibes/${partnerId}.jpg`};
   }
 
-  rateUser(trade: ActiveTrade) {
+  rateUser(trade: any) {
+    trade.statusChanged = true;
     this.rateService.rateUser(trade.rateTicket).subscribe(success => {
       this.loadTrades();
+      this.balanceService.getBalance();
+      this.profileService.getCurrentUser();
       this.parentComponent.switchToCompletedTrades();
     });
   }

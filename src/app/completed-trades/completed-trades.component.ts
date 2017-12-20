@@ -12,8 +12,14 @@ export class CompletedTradesComponent implements OnInit {
   completedTrades: ActiveTrade[];
   profile: UserProfile;
   
-  constructor(private tradeService: ActiveTradeService, private profileService: UserProfileService) { 
-    this.profile = profileService.currentUser;
+  constructor(private tradeService: ActiveTradeService, private profileService: UserProfileService) {
+    if (profileService.currentUser) {
+      this.profile = profileService.currentUser;
+    } else {
+      profileService.getCurrentUser().subscribe(profile => {
+        this.profile = profile;
+      })
+    }
     this.loadTrades();
   }
 
@@ -27,7 +33,7 @@ export class CompletedTradesComponent implements OnInit {
   }
   
   createTradeDescription(trade: ActiveTrade): string {
-    return `${trade.cryptoCurrencyAmount} ${EnumHelper.currencyToString(trade.cryptoCurrency)} for ${trade.nationalCurrencyAmount} ${EnumHelper.currencyToString(trade.nationalCurrency)}`
+    return `${Number(trade.cryptoCurrencyAmount).toFixed(4)} ${EnumHelper.currencyToString(trade.cryptoCurrency)} for ${Number(trade.nationalCurrencyAmount).toFixed(4)} ${EnumHelper.currencyToString(trade.nationalCurrency)}`
   }
 
   getPartnerName(trade: ActiveTrade): string {

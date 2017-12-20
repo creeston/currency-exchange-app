@@ -11,9 +11,15 @@
           <div class="trade-title">{{createOfferDescription(offer)}}</div>
         </mat-card-title>
         <mat-card-subtitle>
-          <button mat-icon-button (click)="acceptOffer(offer)">
-            <mat-icon>done</mat-icon>
-          </button>
+          <p>Rating: {{offer.creator.rating}}</p>
+          <div *ngIf="offer.accepted">
+            <mat-spinner [diameter]=30></mat-spinner>
+          </div>
+          <div *ngIf="!offer.accepted">
+            <button mat-icon-button (click)="acceptOffer(offer)">
+              <mat-icon>done</mat-icon>
+            </button>
+          </div>
         </mat-card-subtitle>
       </mat-card-header>
     </mat-card>

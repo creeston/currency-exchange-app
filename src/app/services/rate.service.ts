@@ -3,10 +3,12 @@ import { HeadersProvider } from './headers-provider';
 import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map'
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class RateService {
-  private endpoint: string = 'https://still-escarpment-16037.herokuapp.com/rate_ticket';
+  private endpoint: string = `${Constants.HostName}/rate_ticket`;
 
   constructor(private http: Http, private headersProvider: HeadersProvider) { }
 

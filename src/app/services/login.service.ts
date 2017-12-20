@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch'
 import { UserProfileService } from './user-profile.service';
 import { AuthService } from '../auth.service';
+import { Constants } from '../constants'
+
 
 @Injectable()
 export class LoginService {
@@ -12,7 +14,7 @@ export class LoginService {
   }
   
   login(username: string, password: string): Observable<boolean> {
-    return this.http.post('https://still-escarpment-16037.herokuapp.com/api-token-auth.json', JSON.stringify(
+    return this.http.post(`${Constants.HostName}/api-token-auth.json`, JSON.stringify(
       { 
         username: username, 
         password: password 
