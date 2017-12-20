@@ -161,8 +161,8 @@ export class LoginComponent implements OnInit {
   codeButtonLabel: string = "Send code";
 
   sendCode() {
-    this.codeButtonLabel = '10';
-    let timeout = 10;
+    this.codeButtonLabel = '30';
+    let timeout = 30;
     Observable.interval(1000)
     .takeWhile(() => timeout > 0)
     .subscribe(i => {
