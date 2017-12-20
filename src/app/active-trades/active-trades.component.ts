@@ -84,7 +84,7 @@ export class ActiveTradesComponent implements OnInit {
   loadTrades() {
     this.tradesLoaded = false;
     this.tradeService.listActiveTrades().subscribe(result => {
-      this.activeTrades = result.filter(t => !t.rateTicket.rate);
+      this.activeTrades = result.filter(t => t.rateTicket.rate === undefined || t.rateTicket.rate === null);
       this.tradesLoaded = true;
     });
   }

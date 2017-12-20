@@ -33,13 +33,20 @@
       <input matInput placeholder="minimal offer" type="number" min="0" [(ngModel)]="trade.secondMinimalOffer" name="s_minimal_offer">
     </mat-form-field>
   </div>
-  <div [hidden]="isPaymentMethodFieldHidden">
+  <div *ngIf="!isPaymentMethodFieldHidden && trade.type == 2">
     <mat-form-field [hideRequiredMarker]="true">
       <mat-select placeholder="Payment methods" [(ngModel)]="trade.paymentMethods" name="payment_methods" multiple>
         <mat-option *ngFor="let method of paymentMethods" [value]="method.value">{{method.viewValue}}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
+  <div *ngIf="!isPaymentMethodFieldHidden && trade.type == 1">
+      <mat-form-field [hideRequiredMarker]="true">
+        <mat-select placeholder="Payment methods" [(ngModel)]="trade.paymentMethods" name="payment_methods" multiple>
+          <mat-option *ngFor="let method of paymentMethodsAll" [value]="method.value">{{method.viewValue}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   <div *ngIf="submitButtonPressed">
     <mat-spinner [diameter]=30></mat-spinner>
   </div>

@@ -2,7 +2,7 @@
     <mat-list-item *ngFor="let trade of completedTrades">
       <mat-card>
         <mat-card-header>
-          <img mat-card-avatar [src]="getUserImageUrl(trade)">
+          <img mat-card-avatar [src]="getUserImageUrl(trade)" (click)="openProfileForm(trade)">
           <mat-card-title>
             <div class="trade-title">{{getPartnerName(trade)}} {{getTradeTypeName(trade)}} {{createTradeDescription(trade)}}
               </div>

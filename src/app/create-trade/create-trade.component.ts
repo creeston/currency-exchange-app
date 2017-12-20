@@ -30,11 +30,13 @@ export class CreateTradeComponent implements OnInit {
     {value: Currency.LTC, viewValue: "LTC"},
   ]
 
-  paymentMethods: any[] = [
+  paymentMethodsAll: any[] = [
     {value: PaymentMethod.PayPal, viewValue: "PayPal"},
     {value: PaymentMethod.QIWI, viewValue: "QIWI"},
     {value: PaymentMethod.YandexMoney, viewValue: "Yandex.Money"},
   ]
+
+  paymentMethods: any[];
 
   first_currency_amount: FormControl = new FormControl('', [this.greaterThanZeroValidator]);
   second_currency_amount: FormControl = new FormControl('', [this.greaterThanZeroValidator]);
@@ -72,7 +74,7 @@ export class CreateTradeComponent implements OnInit {
       this.trade.firstCurrency = data.currency;
       this.trade.type = data.tradeType;
       let userPaymentMethods = this.userService.currentUser.paymentRequisites.map(r => r.method);
-      this.paymentMethods = this.paymentMethods.filter(m => userPaymentMethods.includes(m.value));
+      this.paymentMethods = this.paymentMethodsAll.filter(m => userPaymentMethods.includes(m.value));
     }
     
     createTrade(tradeForm: NgForm): void {

@@ -158,7 +158,21 @@ export class LoginComponent implements OnInit {
     })
   }
 
+  codeButtonLabel: string = "Send code";
+
   sendCode() {
+    this.codeButtonLabel = '10';
+    let timeout = 10;
+    Observable.interval(1000)
+    .takeWhile(() => timeout > 0)
+    .subscribe(i => {
+      timeout -= 1;
+      if (timeout == 0) {
+        this.codeButtonLabel = "Send code";
+      } else {
+        this.codeButtonLabel = timeout.toString();
+      }
+    })
     this.emailConfirmationService.sendEmailConfirmationCode(this.regForm.controls.email.value)
     .subscribe(success => this.snackBar.open("Code sent", "close", {duration: 2000}))
   }
