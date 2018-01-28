@@ -2,7 +2,7 @@
   <mat-form-field>
     <input matInput placeholder="New email" required type="email" name="email" [(ngModel)]="email.email">
   </mat-form-field>
-  <button mat-raised-button (click)="sendCode(emailForm)" type="button" >Send confirmation code</button><br>
+  <button mat-raised-button type="button" (click)="sendCode(email)" [disabled]="codeButtonLabel !== 'Send code'">{{codeButtonLabel}}</button>
   <mat-form-field>
     <input matInput placeholder="Confirmation code" required name="code" [(ngModel)]="email.code">
     <mat-error *ngIf="serverErrors['code']">{{serverErrors['code']}}</mat-error>

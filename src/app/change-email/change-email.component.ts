@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, ErrorStateMatcher, MatSnackBar } from '@
 import { NgForm, FormControl } from '@angular/forms';
 import { UserProfileService } from '../services/user-profile.service';
 import { EmailConfirmationService } from '../services/email-confirmation.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-change-email',
@@ -35,16 +36,29 @@ export class ChangeEmailComponent implements OnInit {
       error => this.snackBar.open(error, "Close", {duration: 3000}))
   }
 
+  codeButtonLabel: string = "Send code";
+  
   sendCode(form: NgForm) {
     if (!form.controls.email.valid) {
       return;
     }
+    this.codeButtonLabel = '30';
+    let timeout = 30;
+    Observable.interval(1000)
+    .takeWhile(() => timeout > 0)
+    .subscribe(i => {
+      timeout -= 1;
+      if (timeout == 0) {
+        this.codeButtonLabel = "Send code";
+      } else {
+        this.codeButtonLabel = timeout.toString();
+      }
+    })
     this.emailService.sendEmailConfirmationCode(this.email.email)
     .subscribe(
-      success => this.snackBar.open("Code sent", "close", {duration: 2000}),
+      success => this.snackBar.open("Code sent", "close", {duration: 2000}))
       error => this.snackBar.open(error, "Close", {duration: 3000})
-    );
-  }
+    }
 }
 
 export class EmailChangeRequest {

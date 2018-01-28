@@ -20,3 +20,7 @@
 .email {
     width: 200px;
 }
+
+p {
+    margin: 0;
+}

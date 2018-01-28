@@ -9,6 +9,7 @@ import { PaymentRequisite, PaymentMethod, PaymentMethodService } from '../servic
 import { ContactInformation, ContactMethod, ContactInformationService } from '../services/contact-information.service';
 import { EnumHelper } from '../enum-helper';
 import { concat } from 'rxjs/operator/concat';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-user-profile',
@@ -94,8 +95,13 @@ export class UserProfileComponent implements OnInit {
   }
 
   removePayment(payment: PaymentRequisite) {
-    this.paymentService.removeUserPayment(payment.id)
-    .subscribe(r => this.loadProfile());
+    this.dialog.open(ConfirmationDialogComponent, {width: '320px', height: '140px', data: "Are you sure you want to remove the payment?"})
+    .afterClosed().subscribe(r => {
+      if (r.accepted) {
+        this.paymentService.removeUserPayment(payment.id)
+        .subscribe(r => this.loadProfile());
+      }
+    });
   }
 
   openAddContactForm() {
@@ -107,7 +113,12 @@ export class UserProfileComponent implements OnInit {
   }
 
   removeContact(contact: ContactInformation) {
-    this.contactInfoService.removeContactInformation(contact.id)
-    .subscribe(r => this.loadProfile());
+    this.dialog.open(ConfirmationDialogComponent, {width: '320px', height: '140px', data: 'Are you sure you want to delete the contact'})
+    .afterClosed().subscribe(r => {
+      if (r.accepted) {
+        this.contactInfoService.removeContactInformation(contact.id)
+        .subscribe(r => this.loadProfile());
+      }
+    });
   }
 }

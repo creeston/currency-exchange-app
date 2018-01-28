@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit {
     fb: FormBuilder) {
       this.regForm = fb.group({
         username : ['', Validators.required],
-        email : ['', [Validators.required, Validators.email]],
+        email : ['', [Validators.required, Validators.email, this.validateEmail]],
           password: ['', Validators.required],
           repeatedPassword: [''],
       },{validator: this.areEqual});   
@@ -94,6 +94,13 @@ export class LoginComponent implements OnInit {
       }
       return {areEqual: false};
     }
+
+  validateEmail(control) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (!re.test(control.value.toLowerCase())) {
+      return {email: false};
+    }
+  }
 
   public Login(loginForm: NgForm) {
     if (!loginForm.valid) {

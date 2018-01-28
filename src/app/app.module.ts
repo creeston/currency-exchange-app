@@ -77,6 +77,7 @@ import { CompletedTradesComponent } from './completed-trades/completed-trades.co
 import { EmailConfirmationService } from './services/email-confirmation.service';
 import { RegistrationService } from './services/registration.service'
 import { ContactInformationService } from './services/contact-information.service';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 
 const routes: Routes = [
   {
@@ -161,7 +162,8 @@ export class MaterialModule {}
     TradeOffersComponent,
     ActiveTradesComponent,
     UserProfileDialogComponent, 
-    CompletedTradesComponent
+    CompletedTradesComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -179,6 +181,6 @@ export class MaterialModule {}
   ActiveTradeService, HeadersProvider, RateService, EmailConfirmationService, RegistrationService, ContactInformationService],
   bootstrap: [AppComponent, CreateTradeComponent, WithdrawCurrencyComponent, DepositCurrencyComponent,
     ChangeEmailComponent, ChangePasswordComponent, AddPaymentComponent, AddContactComponent, TradeOffersComponent,
-    UserProfileDialogComponent]
+    UserProfileDialogComponent, ConfirmationDialogComponent]
 })
 export class AppModule { }
